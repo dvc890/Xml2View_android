@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="12dp"
+        android:paddingLeft="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hit_speed"
+            android:textColor="#2ec864"
+            android:textSize="11sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/speed_edit_decrease"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/sub"
+                android:layout_gravity="center_vertical" />
+
+            <TextView
+                android:id="@+id/speed_edit_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:gravity="center"
+                android:text="10"
+                android:textSize="18sp"
+                android:textColor="#8b9b8b"
+                android:visibility="gone"/>
+            <com.xiaoji.gwlibrary.view.SeekBarRelativeLayout
+                android:id="@+id/hitspeed_edit_value_seekbar"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="-5dp"
+                android:paddingRight="-5dp">
+            </com.xiaoji.gwlibrary.view.SeekBarRelativeLayout>
+
+            <TextView
+                android:id="@+id/speed_edit_increase"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/add"
+                android:layout_gravity="center_vertical" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_marginTop="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/description"
+            android:textColor="#2ec864"
+            android:textSize="11sp"/>
+
+        <TextView
+            android:id="@+id/description_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="12dp"
+            android:gravity="left"
+            android:text="@string/hitmode_description"
+            android:textSize="11sp"
+            android:textColor="#8b9b8b"/>
+        
+        
+        <com.xiaoji.gwlibrary.view.RoundButton
+        	android:id="@+id/ok_btn"
+			android:layout_width="146dp"
+			android:layout_height="35dp"
+			android:layout_marginTop="12dp"
+			android:layout_marginBottom="12dp"
+			fresco:RoundButtonBackground="#ffffff"
+			fresco:RoundButtonCircleColor="#143333"
+			fresco:RoundButtonText="@string/use_config"
+			fresco:RoundButtonTextColor="#2ec864"
+			fresco:RoundButtonTextSize="13sp"/>
+
+    </LinearLayout>
+</ScrollView>

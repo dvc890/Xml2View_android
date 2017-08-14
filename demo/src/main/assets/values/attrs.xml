@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="SeekBarRelativeLayout">
+        <attr name="testcustomfunction" format="string" />
+        <attr name="testcustomfunction2" format="integer" />
+    </declare-styleable>
+
+
+    <declare-styleable name="RoundButton">
+        <attr name="RoundButtonText" format="string" />
+        <attr name="RoundButtonTextColor" format="color" />
+        <attr name="RoundButtonTextSize" format="dimension" />
+        <attr name="RoundButtonBackground" format="color" /><!--填充颜色 -->
+        <attr name="RoundButtonCircleColor" format="color" /><!--边框颜色 -->
+        <attr name="RoundButtonCornerRadius" format="dimension" />
+    </declare-styleable>
+
+
+</resources>

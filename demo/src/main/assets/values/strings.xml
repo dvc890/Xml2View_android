@@ -1,0 +1,11 @@
+<resources>
+    
+    <string name="use_tutorial">使用教程</string>
+    <string name="common_problem">常见问题</string>
+    <string name="about_gamesirspirit">关于手柄精灵</string>
+	<string name="hit_speed">连击速率</string>
+    <string name="description">功能说明</string>
+    <string name="hitmode_description">模拟人手连续点击屏幕，按钮中心为点击的位置，可调整连击速度，速率越大越快。</string>
+    <string name="use_config">使用配置</string>
+    
+</resources>

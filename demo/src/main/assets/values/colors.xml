@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1fc258</color>
+    <color name="colorPrimaryDark">#1fc258</color>
+    <color name="colorAccent">#1fc258</color>
+    <color name="divide_line">#e5e5e5</color>
+    <color name="dialog_button">#4c9be5</color>
+    <color name="button_solid_color1">#f4fbf4</color>
+    <color name="button_text_color1">#1fc258</color>
+    <color name="share_color">#8e8e93</color>
+    <color name="bg_black_transparentcy">#55000000</color>
+
+    <color name="button_solid_color2">#f0f0f0</color>
+    <color name="popup_bg">#99232323</color>
+
+    <color name="dialog_title">#444444</color>
+    <color name="dialog_content">#888888</color>
+    <color name="dialog_cancle">#888888</color>
+    <color name="dialog_ok">#2ec864</color>
+    <color name="thumb_c">#292a2e</color>
+    <color name="thumb_s">#056b28</color>
+
+</resources>
