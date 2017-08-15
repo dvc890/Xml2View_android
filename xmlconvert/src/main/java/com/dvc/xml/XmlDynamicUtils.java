@@ -498,10 +498,14 @@ public class XmlDynamicUtils {
                 }
                 break;
                 case PATH: {
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN)
-                        view.setBackground(com.dvc.xml.AssetsResUtils.getAssetDrawable(view.getContext(), property.getValueString()));
-                    else
-                        view.setBackgroundDrawable(com.dvc.xml.AssetsResUtils.getAssetDrawable(view.getContext(), property.getValueString()));
+                    if (property.getValueString().contains("color")) {
+                        view.setBackgroundColor((Integer) AssetsResUtils.getAssetValue(view.getContext(),property.getValueString()));
+                    } else {
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN)
+                            view.setBackground(com.dvc.xml.AssetsResUtils.getAssetDrawable(view.getContext(), property.getValueString()));
+                        else
+                            view.setBackgroundDrawable(com.dvc.xml.AssetsResUtils.getAssetDrawable(view.getContext(), property.getValueString()));
+                    }
                 }
                 break;
             }

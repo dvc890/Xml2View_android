@@ -90,7 +90,7 @@ public class XmlDynamicView {
 		}
         if(parent == null){
         	parent = new FrameLayout(context);
-        	parent.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        	parent.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
         View container = createViewInternal(context, xmlPullParser, parent, ids);
 
