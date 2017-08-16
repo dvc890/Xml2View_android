@@ -125,7 +125,7 @@ public class XmlDynamicProperty {
         TAG,
     }
 
-    public FIELD FIELD;
+    public FIELD field;
     public TYPE type;
     private Object value;
     private String functionstr;
@@ -240,12 +240,12 @@ public class XmlDynamicProperty {
         boolean iscustom = (!xmlPullParser.getAttributeName(i).split(":")[0].equals("android") && !xmlPullParser.getAttributeName(i).split(":")[0].equals("xmlns"));
         try {
         	if(iscustom){
-        		FIELD = FIELD.FUNCTION;
+                field = FIELD.FUNCTION;
         		functionstr = xmlAttributeName;
         	}else
-        		FIELD = FIELD.valueOf(xmlAttributeName.toUpperCase().trim());
+                field = FIELD.valueOf(xmlAttributeName.toUpperCase().trim());
         } catch (Exception e) {
-            FIELD = FIELD.NO_VALID;
+            field = FIELD.NO_VALID;
         }
         try {
         	if(iscustom){
@@ -268,8 +268,8 @@ public class XmlDynamicProperty {
     }
     
     /**
-     * Get data types through FIELD(Not completed)
-     * @param mNAME
+     * Get data types through field(Not completed)
+     * @param v
      * @return
      */
     public TYPE getTYPE(Object v){
@@ -278,7 +278,7 @@ public class XmlDynamicProperty {
 		}
 		if(v.toString().startsWith("%BASE64:"))
 			return TYPE.BASE64;
-    	switch (FIELD) {
+    	switch (field) {
 		case LAYOUT_WIDTH:
 		case LAYOUT_HEIGHT:
 		case PADDINGLEFT:
@@ -380,7 +380,7 @@ public class XmlDynamicProperty {
     /**
      * @param clazz
      * @param varName
-     * @return search in clazz of possible variable FIELD (varName) and return its value
+     * @return search in clazz of possible variable field (varName) and return its value
      */
     public Object getValueInt(Class clazz, String varName) {
 

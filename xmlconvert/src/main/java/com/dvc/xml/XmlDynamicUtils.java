@@ -25,6 +25,18 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNEND;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTBOTTOM;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTEND;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_BELOW;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_CENTERINPARENT;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_HEIGHT;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGIN;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGINBOTTOM;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGINTOP;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_TOENDOF;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_WIDTH;
+
 /**
  * Created by dvc on 17/7/2017.
  * Helper function that apply properties in views
@@ -42,7 +54,7 @@ public class XmlDynamicUtils {
     public static String applyStyleProperties(View view, List<XmlDynamicProperty> properties) {
         String id = "";
         for (XmlDynamicProperty dynProp : properties) {
-            switch (dynProp.FIELD) {
+            switch (dynProp.field) {
                 case ID: {
                     id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                 }
@@ -199,7 +211,7 @@ public class XmlDynamicUtils {
 
         for (XmlDynamicProperty dynProp : properties) {
             try {
-                switch (dynProp.FIELD) {
+                switch (dynProp.field) {
                     case LAYOUT_HEIGHT: {
                         switch (dynProp.type) {
 	                        case PATH: {
