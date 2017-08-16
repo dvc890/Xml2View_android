@@ -175,7 +175,7 @@ public class AssetsResUtils {
 		    	        for(int i = 0; i < xrp.getAttributeCount(); i++){
 	    	                String xmlAttributeName = xrp.getAttributeName(i);
 	    	                String xmlAttributeValue = xrp.getAttributeValue(i);
-	    	                if(xmlAttributeName.equals("FIELD") && className.contains(xmlAttributeValue)){
+	    	                if(xmlAttributeName.equals("name") && className.contains(xmlAttributeValue)){
 	    	                	while(xrp.next() != XmlPullParser.END_DOCUMENT ){
 	    	                		if(xrp.getName() == null)
 	    	                			continue;
@@ -184,7 +184,7 @@ public class AssetsResUtils {
 		    	    	        	if(xrp.getName().equals("attr")){
 		    	    	        		String name="",format="";
 		    			    	        for(int i2 = 0; i2 < xrp.getAttributeCount(); i2++){
-		    		    	                if(xrp.getAttributeName(i2).equals("FIELD")){
+		    		    	                if(xrp.getAttributeName(i2).equals("name")){
 		    		    	                	name = xrp.getAttributeValue(i2);
 		    		    	                }
 		    		    	                else if(xrp.getAttributeName(i2).equals("format")){

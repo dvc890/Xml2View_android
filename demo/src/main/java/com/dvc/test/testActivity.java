@@ -3,6 +3,7 @@ package com.dvc.test;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,8 +18,10 @@ public class testActivity extends Activity implements View.OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		View sampleView = XmlDynamicView.createView(this, "layout/example.xml", SampleViewHolder.class);
+		View sampleView = XmlDynamicView.createView(this, "layout/example2.xml", SampleViewHolder.class);
 		holder = (SampleViewHolder) sampleView.getTag();
+		holder.btn_config_share_del_cancel.setOnClickListener(this);
+		holder.btn_config_share_del_ok.setOnClickListener(this);
 		holder.ok_btn.setOnClickListener(this);
 		holder.speed_edit_decrease.setOnClickListener(this);
 		holder.speed_edit_increase.setOnClickListener(this);
@@ -43,6 +46,10 @@ public class testActivity extends Activity implements View.OnClickListener{
 
     
     static public class SampleViewHolder {
+		@XmlDynamicViewId(id = "btn_config_share_del_cancel")
+		public Button btn_config_share_del_cancel;
+		@XmlDynamicViewId(id = "btn_config_share_del_ok")
+		public Button btn_config_share_del_ok;
     	@XmlDynamicViewId(id = "speed_edit_decrease")
     	public TextView speed_edit_decrease;
     	@XmlDynamicViewId(id = "speed_edit_increase")
@@ -57,7 +64,12 @@ public class testActivity extends Activity implements View.OnClickListener{
 
 	@Override
 	public void onClick(View arg0) {
-		if (arg0.getId() == holder.speed_edit_decrease.getId()){
+		if (arg0.getId() == holder.btn_config_share_del_cancel.getId()){
+			Toast.makeText(getApplicationContext(), "按了btn_config_share_del_cancel", Toast.LENGTH_SHORT).show();
+		}
+		else if (arg0.getId() == holder.btn_config_share_del_ok.getId()){
+			Toast.makeText(getApplicationContext(), "按了btn_config_share_del_ok", Toast.LENGTH_SHORT).show();
+		}else if (arg0.getId() == holder.speed_edit_decrease.getId()){
 			Toast.makeText(getApplicationContext(), "click decrease", Toast.LENGTH_SHORT).show();
 		}
 		else if (arg0.getId() == holder.speed_edit_increase.getId()){

@@ -7,5 +7,8 @@
     <string name="description">功能说明</string>
     <string name="hitmode_description">模拟人手连续点击屏幕，按钮中心为点击的位置，可调整连击速度，速率越大越快。</string>
     <string name="use_config">使用配置</string>
+    <string name="config_share_mine_del_tip">是否确定撤回分享?</string>
+    <string name="config_share_login_cancel">取消</string>
+    <string name="ok">确定</string>
     
 </resources>

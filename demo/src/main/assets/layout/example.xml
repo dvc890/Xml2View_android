@@ -96,10 +96,10 @@
                 android:layout_height="35dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
-                android:layout_below="@id/ok_btn"
+                android:layout_toRightOf="@id/ok_btn"
                 fresco:RoundButtonBackground="#ffffff"
                 fresco:RoundButtonCircleColor="#143333"
-                fresco:RoundButtonText="取消"
+                fresco:RoundButtonText="放弃配置"
                 fresco:RoundButtonTextColor="#2ec864"
                 fresco:RoundButtonTextSize="13sp"/>
         </RelativeLayout>

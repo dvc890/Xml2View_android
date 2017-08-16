@@ -136,11 +136,12 @@ public class XmlDynamicView {
      */
     public static View createIncludeView (Context context, String layoutid, ViewGroup parent, HashMap<String, Integer> ids) {
         XmlPullParser xmlPullParser = null;
+        InputStream is = null;
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             xmlPullParser = factory.newPullParser();
             factory.setValidating(true);
-            InputStream is = context.getAssets().open(layoutid.substring(1)+".xml");
+            is = context.getAssets().open(layoutid.substring(1)+".xml");
             try {
                 xmlPullParser.setInput(is, "utf-8");
             } catch (XmlPullParserException e) {
@@ -171,6 +172,8 @@ public class XmlDynamicView {
 
         if (container==null)
             return null;
+        if(is != null)
+            try {is.close();} catch (IOException e) {}
 
         return container;
     }
