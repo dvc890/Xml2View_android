@@ -77,18 +77,31 @@
             android:textSize="11sp"
             android:textColor="#8b9b8b"/>
         
-        
-        <com.xiaoji.gwlibrary.view.RoundButton
-        	android:id="@+id/ok_btn"
-			android:layout_width="146dp"
-			android:layout_height="35dp"
-			android:layout_marginTop="12dp"
-			android:layout_marginBottom="12dp"
-			fresco:RoundButtonBackground="#ffffff"
-			fresco:RoundButtonCircleColor="#143333"
-			fresco:RoundButtonText="@string/use_config"
-			fresco:RoundButtonTextColor="#2ec864"
-			fresco:RoundButtonTextSize="13sp"/>
-
+        <RelativeLayout android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <com.xiaoji.gwlibrary.view.RoundButton
+                android:id="@+id/ok_btn"
+                android:layout_width="146dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                fresco:RoundButtonBackground="#ffffff"
+                fresco:RoundButtonCircleColor="#143333"
+                fresco:RoundButtonText="@string/use_config"
+                fresco:RoundButtonTextColor="#2ec864"
+                fresco:RoundButtonTextSize="13sp"/>
+            <com.xiaoji.gwlibrary.view.RoundButton
+                android:id="@+id/cancle_btn"
+                android:layout_width="146dp"
+                android:layout_height="35dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:layout_below="@id/ok_btn"
+                fresco:RoundButtonBackground="#ffffff"
+                fresco:RoundButtonCircleColor="#143333"
+                fresco:RoundButtonText="取消"
+                fresco:RoundButtonTextColor="#2ec864"
+                fresco:RoundButtonTextSize="13sp"/>
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>

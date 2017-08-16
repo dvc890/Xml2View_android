@@ -25,16 +25,31 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ABOVE;
 import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNEND;
 import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTBOTTOM;
 import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTEND;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTLEFT;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTRIGHT;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTSTART;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTTOP;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNTOP;
 import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_BELOW;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_CENTERHORIZONTAL;
 import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_CENTERINPARENT;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_CENTERVERTICAL;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_GRAVITY;
 import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_HEIGHT;
 import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGIN;
 import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGINBOTTOM;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGINLEFT;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGINRIGHT;
 import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGINTOP;
 import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_TOENDOF;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_TOLEFTOF;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_TORIGHTOF;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_TOSTARTOF;
+import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_WEIGHT;
 import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_WIDTH;
 
 /**
@@ -214,29 +229,29 @@ public class XmlDynamicUtils {
                 switch (dynProp.field) {
                     case LAYOUT_HEIGHT: {
                         switch (dynProp.type) {
-	                        case PATH: {
-	                    		params.height = (int) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), dynProp.getValueString());
-	                        	break;
-	                        }
-	                        case DIMEN:
+                            case PATH: {
+                                params.height = (int) AssetsResUtils.getAssetValue(view.getContext(), dynProp.getValueString());
+                                break;
+                            }
+                            case DIMEN:
                             case INTEGER: {
-                        		params.height = dynProp.getValueInt();
-                            	break;
+                                params.height = dynProp.getValueInt();
+                                break;
                             }
                         }
                     }
                     break;
                     case LAYOUT_WIDTH: {
                         switch (dynProp.type) {
-	                        case PATH: {
-	                    		params.width = (int) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), dynProp.getValueString());
-	                        	break;
-	                        }
-	                        case DIMEN:
-	                        case INTEGER: {
-	                    		params.width = dynProp.getValueInt();
-	                        	break;
-	                        }
+                            case PATH: {
+                                params.width = (int) AssetsResUtils.getAssetValue(view.getContext(), dynProp.getValueString());
+                                break;
+                            }
+                            case DIMEN:
+                            case INTEGER: {
+                                params.width = dynProp.getValueInt();
+                                break;
+                            }
                         }
                     }
                     break;
@@ -244,14 +259,14 @@ public class XmlDynamicUtils {
                         if (params instanceof ViewGroup.MarginLayoutParams) {
                             ViewGroup.MarginLayoutParams p = ((ViewGroup.MarginLayoutParams) params);
                             p.bottomMargin = p.topMargin = p.leftMargin = p.rightMargin = dynProp.getValueInt();
-                        }else if(params instanceof LinearLayout.LayoutParams) {
-                        	LinearLayout.LayoutParams p = ((LinearLayout.LayoutParams) params);
+                        }else if(params instanceof android.widget.LinearLayout.LayoutParams) {
+                            android.widget.LinearLayout.LayoutParams p = ((android.widget.LinearLayout.LayoutParams) params);
                             p.bottomMargin = p.topMargin = p.leftMargin = p.rightMargin = dynProp.getValueInt();
                         }else if(params instanceof android.widget.FrameLayout.LayoutParams) {
-                        	android.widget.FrameLayout.LayoutParams p = ((android.widget.FrameLayout.LayoutParams) params);
+                            android.widget.FrameLayout.LayoutParams p = ((android.widget.FrameLayout.LayoutParams) params);
                             p.bottomMargin = p.topMargin = p.leftMargin = p.rightMargin = dynProp.getValueInt();
-                        }else if(params instanceof RelativeLayout.LayoutParams) {
-                        	RelativeLayout.LayoutParams p = ((RelativeLayout.LayoutParams) params);
+                        }else if(params instanceof android.widget.RelativeLayout.LayoutParams) {
+                            android.widget.RelativeLayout.LayoutParams p = ((android.widget.RelativeLayout.LayoutParams) params);
                             p.bottomMargin = p.topMargin = p.leftMargin = p.rightMargin = dynProp.getValueInt();
                         }
                     }
@@ -259,114 +274,127 @@ public class XmlDynamicUtils {
                     case LAYOUT_MARGINLEFT: {
                         if (params instanceof ViewGroup.MarginLayoutParams) {
                             ((ViewGroup.MarginLayoutParams) params).leftMargin = dynProp.getValueInt();
-                        }else if(params instanceof LinearLayout.LayoutParams) {
+                        }else if(params instanceof android.widget.LinearLayout.LayoutParams) {
                             ((LinearLayout.LayoutParams) params).leftMargin = dynProp.getValueInt();
                         }else if(params instanceof android.widget.FrameLayout.LayoutParams) {
                             ((android.widget.FrameLayout.LayoutParams) params).leftMargin = dynProp.getValueInt();
-                        }else if(params instanceof RelativeLayout.LayoutParams) {
-                            ((RelativeLayout.LayoutParams) params).leftMargin = dynProp.getValueInt();
+                        }else if(params instanceof android.widget.RelativeLayout.LayoutParams) {
+                            ((android.widget.RelativeLayout.LayoutParams) params).leftMargin = dynProp.getValueInt();
                         }
                     }
                     break;
                     case LAYOUT_MARGINTOP: {
                         if (params instanceof ViewGroup.MarginLayoutParams) {
                             ((ViewGroup.MarginLayoutParams) params).topMargin = dynProp.getValueInt();
-                        }else if(params instanceof LinearLayout.LayoutParams) {
-                            ((LinearLayout.LayoutParams) params).topMargin = dynProp.getValueInt();
+                        }else if(params instanceof android.widget.LinearLayout.LayoutParams) {
+                            ((android.widget.LinearLayout.LayoutParams) params).topMargin = dynProp.getValueInt();
                         }else if(params instanceof android.widget.FrameLayout.LayoutParams) {
                             ((android.widget.FrameLayout.LayoutParams) params).topMargin = dynProp.getValueInt();
-                        }else if(params instanceof RelativeLayout.LayoutParams) {
-                            ((RelativeLayout.LayoutParams) params).topMargin = dynProp.getValueInt();
+                        }else if(params instanceof android.widget.RelativeLayout.LayoutParams) {
+                            ((android.widget.RelativeLayout.LayoutParams) params).topMargin = dynProp.getValueInt();
                         }
                     }
                     break;
                     case LAYOUT_MARGINRIGHT: {
                         if (params instanceof ViewGroup.MarginLayoutParams) {
                             ((ViewGroup.MarginLayoutParams) params).rightMargin = dynProp.getValueInt();
-                        }else if(params instanceof LinearLayout.LayoutParams) {
-                            ((LinearLayout.LayoutParams) params).rightMargin = dynProp.getValueInt();
+                        }else if(params instanceof android.widget.LinearLayout.LayoutParams) {
+                            ((android.widget.LinearLayout.LayoutParams) params).rightMargin = dynProp.getValueInt();
                         }else if(params instanceof android.widget.FrameLayout.LayoutParams) {
                             ((android.widget.FrameLayout.LayoutParams) params).rightMargin = dynProp.getValueInt();
-                        }else if(params instanceof RelativeLayout.LayoutParams) {
-                            ((RelativeLayout.LayoutParams) params).rightMargin = dynProp.getValueInt();
+                        }else if(params instanceof android.widget.RelativeLayout.LayoutParams) {
+                            ((android.widget.RelativeLayout.LayoutParams) params).rightMargin = dynProp.getValueInt();
                         }
                     }
                     break;
                     case LAYOUT_MARGINBOTTOM: {
                         if (params instanceof ViewGroup.MarginLayoutParams) {
                             ((ViewGroup.MarginLayoutParams) params).bottomMargin = dynProp.getValueInt();
-                        }else if(params instanceof LinearLayout.LayoutParams) {
-                            ((LinearLayout.LayoutParams) params).bottomMargin = dynProp.getValueInt();
+                        }else if(params instanceof android.widget.LinearLayout.LayoutParams) {
+                            ((android.widget.LinearLayout.LayoutParams) params).bottomMargin = dynProp.getValueInt();
                         }else if(params instanceof android.widget.FrameLayout.LayoutParams) {
                             ((android.widget.FrameLayout.LayoutParams) params).bottomMargin = dynProp.getValueInt();
-                        }else if(params instanceof RelativeLayout.LayoutParams) {
-                            ((RelativeLayout.LayoutParams) params).bottomMargin = dynProp.getValueInt();
+                        }else if(params instanceof android.widget.RelativeLayout.LayoutParams) {
+                            ((android.widget.RelativeLayout.LayoutParams) params).bottomMargin = dynProp.getValueInt();
                         }
                     }
                     break;
                     case LAYOUT_ABOVE: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ABOVE, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ABOVE, ids.get(id));
                     }
                     break;
                     case LAYOUT_BELOW: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.BELOW, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.BELOW, ids.get(id));
                     }
                     break;
                     case LAYOUT_TOLEFTOF: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.LEFT_OF, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.LEFT_OF, ids.get(id));
                     }
                     break;
                     case LAYOUT_TORIGHTOF: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.RIGHT_OF, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.RIGHT_OF, ids.get(id));
                     }
                     break;
                     case LAYOUT_TOSTARTOF: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.START_OF, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.START_OF, ids.get(id));
                     }
                     break;
                     case LAYOUT_TOENDOF: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.END_OF, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.END_OF, ids.get(id));
                     }
                     break;
                     case LAYOUT_ALIGNBASELINE: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_BASELINE, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_BASELINE, ids.get(id));
                     }
                     break;
                     case LAYOUT_ALIGNLEFT: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_LEFT, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_LEFT, ids.get(id));
                     }
                     break;
                     case LAYOUT_ALIGNTOP: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_TOP, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_TOP, ids.get(id));
                     }
                     break;
                     case LAYOUT_ALIGNRIGHT: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_RIGHT, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_RIGHT, ids.get(id));
                     }
                     break;
                     case LAYOUT_ALIGNBOTTOM: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_BOTTOM, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_BOTTOM, ids.get(id));
                     }
                     break;
                     case LAYOUT_ALIGNSTART: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_START, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_START, ids.get(id));
                     }
                     break;
                     case LAYOUT_ALIGNEND: {
+                        String id = dynProp.getValueString().indexOf("/")>-1?dynProp.getValueString().split("/")[1]:dynProp.getValueString();
                         if (params instanceof RelativeLayout.LayoutParams)
-                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_END, ids.get(dynProp.getValueString()));
+                            ((RelativeLayout.LayoutParams) params).addRule(RelativeLayout.ALIGN_END, ids.get(id));
                     }
                     break;
                     case LAYOUT_ALIGNWITHPARENTIFMISSING: {
@@ -421,7 +449,7 @@ public class XmlDynamicUtils {
                     break;
                     case LAYOUT_GRAVITY: {
                         switch (dynProp.type) {
-                        	case DIMEN:
+                            case DIMEN:
                             case INTEGER: {
                                 if (params instanceof LinearLayout.LayoutParams)
                                     ((LinearLayout.LayoutParams) params).gravity = dynProp.getValueInt();
