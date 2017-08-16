@@ -123,7 +123,10 @@ public class XmlDynamicView {
                 e.printStackTrace();
             }
 
+        }else{
+            parent.setTag(ids);
         }
+
         parent.addView(container);
         return parent;
     }
@@ -134,7 +137,7 @@ public class XmlDynamicView {
      * @param ids : the hashMap where we keep ids as string from json to ids as int in the layout
      * @return the includelayout that created
      */
-    public static View createIncludeView (Context context, String layoutid, ViewGroup parent, HashMap<String, Integer> ids) {
+    public static View createIncludeView (Context context, String layoutid, ViewGroup parent, HashMap<String, Integer> ids, ArrayList<XmlDynamicProperty> properties) {
         XmlPullParser xmlPullParser = null;
         InputStream is = null;
         try {
@@ -172,6 +175,13 @@ public class XmlDynamicView {
 
         if (container==null)
             return null;
+
+        if (container.getTag(INTERNAL_TAG_ID) != null)
+            XmlDynamicUtils.applyLayoutProperties(container, (List<XmlDynamicProperty>) container.getTag(INTERNAL_TAG_ID), parent, ids);
+        if(properties.size() > 0) {
+            XmlDynamicUtils.applyStyleProperties(container, properties);
+        }
+
         if(is != null)
             try {is.close();} catch (IOException e) {}
 
@@ -207,15 +217,20 @@ public class XmlDynamicView {
                     throw new InflateException("<include /> cannot be the root element");
                 }
                 String layoutid = "";
+                properties = new ArrayList<>();
                 for(int i = 0; i < xmlPullParser.getAttributeCount(); i++){
                     String xmlAttributeName = xmlPullParser.getAttributeName(i);
                     if(xmlPullParser.getAttributeName(i).equals("layout")){
                         layoutid = xmlPullParser.getAttributeValue(i);
-                        break;
+                    }else {
+                        XmlDynamicProperty p = new XmlDynamicProperty(context, xmlPullParser, i);
+                        if (p.isValid())
+                            properties.add(p);
                     }
                 }
                 if(layoutid.length()>0)
-                    return createIncludeView(context, layoutid, parent, ids);
+                    /* create a include layout view */
+                    return createIncludeView(context, layoutid, parent, ids, properties);
             } else{
                 if (!xmlPullParser.getName().contains(".")) {
                     widget = "android.widget." + xmlPullParser.getName();
@@ -314,7 +329,7 @@ public class XmlDynamicView {
                         continue;
                     }
                     /* create every child add it in viewGroup and set its tag with its properties */
-                    View dynamicChildView = XmlDynamicView.createViewInternal(context, xmlPullParser, parent, ids);
+                    View dynamicChildView = XmlDynamicView.createViewInternal(context, xmlPullParser, viewGroup, ids);
                     if (dynamicChildView!=null) {
                         views.add(dynamicChildView);
                         viewGroup.addView(dynamicChildView);

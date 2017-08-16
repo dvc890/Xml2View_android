@@ -9,6 +9,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -453,11 +454,15 @@ public class XmlDynamicUtils {
                             case INTEGER: {
                                 if (params instanceof LinearLayout.LayoutParams)
                                     ((LinearLayout.LayoutParams) params).gravity = dynProp.getValueInt();
+                                else if (params instanceof FrameLayout.LayoutParams)
+                                    ((FrameLayout.LayoutParams) params).gravity = dynProp.getValueInt();
                             }
                             break;
                             case STRING: {
                                 if (params instanceof LinearLayout.LayoutParams)
                                     ((LinearLayout.LayoutParams) params).gravity = (Integer) dynProp.getValueInt(Gravity.class, dynProp.getValueString().toUpperCase());
+                                else if (params instanceof FrameLayout.LayoutParams)
+                                    ((FrameLayout.LayoutParams) params).gravity = (Integer) dynProp.getValueInt(Gravity.class, dynProp.getValueString().toUpperCase());
                             }
                             break;
                         }
