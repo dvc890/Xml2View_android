@@ -32,7 +32,7 @@
             android:layout_height="1dp"/>
         <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_height="40dp">
             <Button
@@ -40,7 +40,7 @@
                 android:text="@string/config_share_login_cancel"
                 android:textColor="@color/color_config_text"
                 android:textSize="14sp"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="40dp" />
             <View
@@ -52,7 +52,7 @@
                 android:text="@string/ok"
                 android:textColor="@color/color_config_active"
                 android:textSize="14sp"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="40dp" />
         </LinearLayout>
@@ -60,7 +60,8 @@
     <include layout="@layout/example"
         android:id="@+id/fl_menu"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
     />
 
 </RelativeLayout>

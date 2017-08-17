@@ -75,7 +75,7 @@ public class XmlDynamicView {
             e1.printStackTrace();
         }
 
-        return createView(context, xmlPullParser, null, object);
+        return createView(context, xmlPullParser, parent, object);
     }
 
     /**

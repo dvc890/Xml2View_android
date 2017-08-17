@@ -11,7 +11,7 @@
 	public class testActivity extends Activity {
 
 		@XmlDynamicViewId(id = "ok_btn")
-	    public RoundButton ok_btn;
+		public RoundButton ok_btn;
 
 		protected void onCreate(Bundle savedInstanceState) {
         	super.onCreate(savedInstanceState);
@@ -30,13 +30,13 @@
 	holder.ok_btn.setOnClickListener(this);
 
 ###  方法3：
-1. 先定义一个类，格式如下，如果是内部类，需要加上`static`
+1.先定义一个类，格式如下，如果是内部类，需要加上`static`
 
-	`public static class SampleViewHolder {
-		@XmlDynamicViewId(id = "ok_btn")
-		public RoundButton ok_btn;
-	        public SampleViewHolder() {}
-	}`
+	public static class SampleViewHolder {
+	    @XmlDynamicViewId(id = "ok_btn")
+	    public RoundButton ok_btn;
+	    public SampleViewHolder() {}
+	}
 
 
 2.将该类在创建View的时候作为参数传入，然后由此可以得到所有你所需要的view

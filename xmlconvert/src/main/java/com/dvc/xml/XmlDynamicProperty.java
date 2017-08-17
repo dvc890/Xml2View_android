@@ -316,8 +316,9 @@ public class XmlDynamicProperty {
 		case TEXTCOLOR:
 			return TYPE.COLOR;
 		case MAXLINES:
-		case LAYOUT_WEIGHT:
 			return TYPE.INTEGER;
+        case LAYOUT_WEIGHT:
+            return TYPE.FLOAT;
 		case TEXTSTYLE:
 		case DRAWABLETOP:
 		case DRAWABLEBOTTOM:
