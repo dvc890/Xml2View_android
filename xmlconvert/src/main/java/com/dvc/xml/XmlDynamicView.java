@@ -36,7 +36,24 @@ public class XmlDynamicView {
             Context.class, AttributeSet.class};
     private static boolean DEBUG = true;
 
-    public static View createView (Context context, String xmlPath, Class<?> holderClass) {
+    /**
+     * @param context
+     * @param xmlPath : a XML file path in the assets path
+     * @param object : use @XmlDynamicViewId to find the view in the object
+     * @return the view that created
+     */
+    public static View createView (Context context, String xmlPath, Object object) {
+        return createView(context, xmlPath, null, object);
+    }
+    
+    /**
+     * @param context
+     * @param xmlPath : a XML file path in the assets path
+     * @param parent : parent viewGroup
+     * @param object : use @XmlDynamicViewId to find the view in the object
+     * @return the view that created
+     */
+    public static View createView (Context context, String xmlPath, ViewGroup parent, Object object) {
         XmlPullParser xmlPullParser = null;
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -58,26 +75,26 @@ public class XmlDynamicView {
             e1.printStackTrace();
         }
 
-        return createView(context, xmlPullParser, null, holderClass);
+        return createView(context, xmlPullParser, null, object);
     }
 
     /**
      * @param xmlPullParser : xml PullParser
-     * @param holderClass : class that will be created as an holder and attached as a tag in the View
+     * @param object : use @XmlDynamicViewId to find the view in the object
      * @return the view that created
      */
-    public static View createView (Context context, XmlPullParser xmlPullParser, Class<?> holderClass) {
-        return createView(context, xmlPullParser, null, holderClass);
+    public static View createView (Context context, XmlPullParser xmlPullParser, Object object) {
+        return createView(context, xmlPullParser, null, object);
     }
 
 
     /**
      * @param xmlPullParser : xml PullParser
      * @param parent : parent viewGroup
-     * @param holderClass : class that will be created as an holder and attached as a tag in the View, If contains HashMap ids will replaced with idsMap
+     * @param object : class that will be created as an holder and attached as a tag in the View, If contains HashMap ids will replaced with idsMap
      * @return the view that created
      */
-    public static View createView (Context context, XmlPullParser xmlPullParser, ViewGroup parent, Class<?> holderClass) {
+    public static View createView (Context context, XmlPullParser xmlPullParser, ViewGroup parent, Object object) {
 
         if(xmlPullParser == null )
             return null;
@@ -107,23 +124,26 @@ public class XmlDynamicView {
         /* clear tag from properties */
         container.setTag(INTERNAL_TAG_ID, null);
 
-        if (holderClass!= null) {
-
-            try {
-                Object holder = holderClass.getConstructor().newInstance();
-                XmlDynamicUtils.parseDynamicView(holder, container, ids);
-                parent.setTag(holder);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+        if (object!= null) {
+            if(object instanceof Class<?>) {
+                try {
+                    Object holder = ((Class<?>)object).getConstructor().newInstance();
+                    XmlDynamicUtils.parseDynamicView(holder, container, ids);
+                    parent.setTag(holder);
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                XmlDynamicUtils.parseDynamicView(object, container, ids);
             }
 
-        }else{
+        } else {
             parent.setTag(ids);
         }
 

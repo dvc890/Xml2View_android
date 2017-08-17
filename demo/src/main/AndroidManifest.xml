@@ -15,7 +15,7 @@
         
         
         <activity
-            android:name="com.dvc.test.testActivity"
+            android:name="com.dvc.test.test2Activity"
             android:configChanges="mcc|mnc|locale|touchscreen|keyboard|keyboardHidden|navigation|orientation|screenLayout|fontScale|uiMode|screenSize|smallestScreenSize"
             android:launchMode="singleTop"
             android:screenOrientation="landscape">
