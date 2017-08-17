@@ -45,7 +45,7 @@ public class XmlDynamicView {
     public static View createView (Context context, String xmlPath, Object object) {
         return createView(context, xmlPath, null, object);
     }
-    
+
     /**
      * @param context
      * @param xmlPath : a XML file path in the assets path
