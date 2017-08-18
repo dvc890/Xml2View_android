@@ -26,33 +26,6 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ABOVE;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNEND;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTBOTTOM;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTEND;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTLEFT;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTRIGHT;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTSTART;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNPARENTTOP;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_ALIGNTOP;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_BELOW;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_CENTERHORIZONTAL;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_CENTERINPARENT;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_CENTERVERTICAL;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_GRAVITY;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_HEIGHT;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGIN;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGINBOTTOM;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGINLEFT;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGINRIGHT;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_MARGINTOP;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_TOENDOF;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_TOLEFTOF;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_TORIGHTOF;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_TOSTARTOF;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_WEIGHT;
-import static com.dvc.xml.XmlDynamicProperty.FIELD.LAYOUT_WIDTH;
-
 /**
  * Created by dvc on 17/7/2017.
  * Helper function that apply properties in views
@@ -138,7 +111,7 @@ public class XmlDynamicUtils {
                     applyOrientation(view, dynProp);
                 }
                 break;
-                case SUM_WEIGHT: {
+                case WEIGHTSUM: {
                     applyWeightSum(view, dynProp);
                 }
                 break;
@@ -679,12 +652,12 @@ public class XmlDynamicUtils {
     }
 
     /**
-     * apply selected in view
+     * apply scalex in view
      */
     public static void applyScaleX(View view, XmlDynamicProperty property) {
         if (view != null) {
             switch (property.type) {
-                case BOOLEAN: {
+                case DIMEN: {
                     view.setScaleX(property.getValueFloat());
                 }
                 break;
@@ -693,12 +666,12 @@ public class XmlDynamicUtils {
     }
 
     /**
-     * apply selected in view
+     * apply scaley in view
      */
     public static void applyScaleY(View view, XmlDynamicProperty property) {
         if (view != null) {
             switch (property.type) {
-                case BOOLEAN: {
+                case DIMEN: {
                     view.setScaleY(property.getValueFloat());
                 }
                 break;
@@ -968,50 +941,50 @@ public class XmlDynamicUtils {
         try {
         	Method method = null;
             switch (property.type) {
-            case INTEGER:
-            case COLOR: {
-            	method = getMethod(view.getClass(), property.getFunctionStr(), int.class);
-            }
-            break;
-            case BOOLEAN:{
-            	method = getMethod(view.getClass(), property.getFunctionStr(), Boolean.class);
-            }
-            break;
-            case DRAWABLE:{
-            	method = getMethod(view.getClass(), property.getFunctionStr(), Drawable.class);
-            }
-            break;
-            case STRING:{
-            	method = getMethod(view.getClass(), property.getFunctionStr(), String.class);
-            }
-            break;
-            case DIMEN:
-            case FLOAT:{
-            	method = getMethod(view.getClass(), property.getFunctionStr(), float.class);
-            }
-            break;
-            case PATH:{
-            	Object value = AssetsResUtils.getAssetValue(view.getContext(), property.getValueString());
-            	if(value instanceof String){
-            		method = getMethod(view.getClass(), property.getFunctionStr(), String.class);
-            	}
-            	else if(value instanceof Float){
-            		method = getMethod(view.getClass(), property.getFunctionStr(), Float.class);
+                case INTEGER:
+                case COLOR: {
+                    method = getMethod(view.getClass(), property.getFunctionStr(), int.class);
                 }
-            	else if(value instanceof Integer){
-            		method = getMethod(view.getClass(), property.getFunctionStr(), Integer.class);
+                break;
+                case BOOLEAN:{
+                    method = getMethod(view.getClass(), property.getFunctionStr(), Boolean.class);
                 }
-                method.setAccessible(true);
-                method.invoke(view, value);
-            }
-            return;
-            case NO_VALID: {
-            	method = getMethod(view.getClass(), property.getFunctionStr());
-                method.setAccessible(true);
-                method.invoke(view);
-            }
-            return;
-            }
+                break;
+                case DRAWABLE:{
+                    method = getMethod(view.getClass(), property.getFunctionStr(), Drawable.class);
+                }
+                break;
+                case STRING:{
+                    method = getMethod(view.getClass(), property.getFunctionStr(), String.class);
+                }
+                break;
+                case DIMEN:
+                case FLOAT:{
+                    method = getMethod(view.getClass(), property.getFunctionStr(), float.class);
+                }
+                break;
+                case PATH:{
+                    Object value = AssetsResUtils.getAssetValue(view.getContext(), property.getValueString());
+                    if(value instanceof String){
+                        method = getMethod(view.getClass(), property.getFunctionStr(), String.class);
+                    }
+                    else if(value instanceof Float){
+                        method = getMethod(view.getClass(), property.getFunctionStr(), Float.class);
+                    }
+                    else if(value instanceof Integer){
+                        method = getMethod(view.getClass(), property.getFunctionStr(), Integer.class);
+                    }
+                    method.setAccessible(true);
+                    method.invoke(view, value);
+                }
+                return;
+                case NO_VALID: {
+                    method = getMethod(view.getClass(), property.getFunctionStr());
+                    method.setAccessible(true);
+                    method.invoke(view);
+                }
+                return;
+                }
             method.setAccessible(true);
             method.invoke(view, property.getValueObject());
         } catch (SecurityException e) {

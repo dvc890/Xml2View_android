@@ -3,10 +3,7 @@
  */
 package com.xiaoji.gwlibrary.view;
 
-import com.dvc.xml.AssetsResUtils;
-
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -17,6 +14,8 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.dvc.xml.AssetsResUtils;
 
 
 /**
@@ -244,6 +243,7 @@ public class RoundButton extends View {
 
 	public void setRoundButtonBackground(int color){
 		mTitleBackgroundColor = color;
+		tempColor = mTitleBackgroundColor;
 		invalidate();
 	}
 
@@ -251,6 +251,7 @@ public class RoundButton extends View {
 		mTitleCircleColor = color;
 		invalidate();
 	}
+
 	public void setTextColor(int color) {
 		mTitleTextColor = color;
 		invalidate();

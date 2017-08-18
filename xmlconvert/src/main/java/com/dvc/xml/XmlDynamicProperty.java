@@ -118,7 +118,7 @@ public class XmlDynamicProperty {
         LAYOUT_TOSTARTOF,
         LAYOUT_GRAVITY,
         LAYOUT_WEIGHT,
-        SUM_WEIGHT,
+        WEIGHTSUM,
         ORIENTATION,
 
         FUNCTION,
@@ -230,7 +230,7 @@ public class XmlDynamicProperty {
 
     /**
      * create property and parse xml
-     * @param XmlPullParser : xml PullParser
+     * @param xmlPullParser : xml PullParser
      */
     public XmlDynamicProperty(Context context, XmlPullParser xmlPullParser, int i) {
         super();
@@ -276,8 +276,6 @@ public class XmlDynamicProperty {
 		if(v.toString().startsWith("@")){
 			return TYPE.PATH;
 		}
-		if(v.toString().startsWith("%BASE64:"))
-			return TYPE.BASE64;
     	switch (field) {
 		case LAYOUT_WIDTH:
 		case LAYOUT_HEIGHT:
@@ -298,6 +296,12 @@ public class XmlDynamicProperty {
 		case TEXTSIZE:
 			return TYPE.DIMEN;
 		case BACKGROUND:
+            if(v.toString().startsWith("@"))
+                return TYPE.PATH;
+            else if(v.toString().startsWith("%ref:"))
+                return TYPE.REF;
+            else if(v.toString().startsWith("%BASE64:"))
+                return TYPE.BASE64;
 			return TYPE.COLOR;
 		case ENABLED:
 		case SELECTED:
@@ -305,28 +309,41 @@ public class XmlDynamicProperty {
 		case LAYOUT_CENTERHORIZONTAL:
 		case LAYOUT_CENTERINPARENT:
 		case LAYOUT_CENTERVERTICAL:
+        case ADJUSTVIEWBOUNDS:
 			return TYPE.BOOLEAN;
+        case TEXT:
+        case HINT:
+            if(v.toString().startsWith("@"))
+                return TYPE.PATH;
+            else if(v.toString().startsWith("%ref:"))
+                return TYPE.REF;
 		case VISIBILITY:
-		case TEXT:
 		case GRAVITY:
 		case ORIENTATION:
 		case LAYOUT_GRAVITY:
 		case ELLIPSIZE:
+        case SCALETYPE:
 			return TYPE.STRING;
 		case TEXTCOLOR:
 			return TYPE.COLOR;
 		case MAXLINES:
 			return TYPE.INTEGER;
         case LAYOUT_WEIGHT:
+        case WEIGHTSUM:
             return TYPE.FLOAT;
 		case TEXTSTYLE:
 		case DRAWABLETOP:
-		case DRAWABLEBOTTOM:
-		case DRAWABLELEFT:
-		case DRAWABLERIGHT:
-		case SRC:
-		case SCALETYPE:
-		case ADJUSTVIEWBOUNDS:
+        case DRAWABLEBOTTOM:
+        case DRAWABLELEFT:
+        case DRAWABLERIGHT:
+        case SRC:
+            if(v.toString().startsWith("@"))
+                return TYPE.PATH;
+            else if(v.toString().startsWith("%ref:"))
+                return TYPE.REF;
+            else if(v.toString().startsWith("%BASE64:"))
+                return TYPE.BASE64;
+            break;
 		case LAYOUT_ABOVE:
 		case LAYOUT_ALIGNBASELINE:
 		case LAYOUT_ALIGNBOTTOM:
@@ -347,7 +364,6 @@ public class XmlDynamicProperty {
 		case LAYOUT_TOLEFTOF:
 		case LAYOUT_TORIGHTOF:
 		case LAYOUT_TOSTARTOF:
-		case SUM_WEIGHT:
 	
 		case TAG:
 			return TYPE.NO_VALID;

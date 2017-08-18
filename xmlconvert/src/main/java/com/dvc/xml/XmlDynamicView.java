@@ -1,16 +1,5 @@
 package com.dvc.xml;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
-
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -18,6 +7,17 @@ import android.view.InflateException;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+import org.xmlpull.v1.XmlPullParserFactory;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by dvc on 17/7/2017.
@@ -55,11 +55,12 @@ public class XmlDynamicView {
      */
     public static View createView (Context context, String xmlPath, ViewGroup parent, Object object) {
         XmlPullParser xmlPullParser = null;
+        InputStream is = null;
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             xmlPullParser = factory.newPullParser();
             factory.setValidating(true);
-            InputStream is = context.getAssets().open(xmlPath);
+            is = context.getAssets().open(xmlPath);
             try {
                 xmlPullParser.setInput(is, "utf-8");
             } catch (XmlPullParserException e) {
@@ -74,8 +75,10 @@ public class XmlDynamicView {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-
-        return createView(context, xmlPullParser, parent, object);
+        View view = createView(context, xmlPullParser, parent, object);
+        if(is != null)
+            try {is.close();} catch (IOException e) {}
+        return view;
     }
 
     /**
@@ -239,7 +242,6 @@ public class XmlDynamicView {
                 String layoutid = "";
                 properties = new ArrayList<>();
                 for(int i = 0; i < xmlPullParser.getAttributeCount(); i++){
-                    String xmlAttributeName = xmlPullParser.getAttributeName(i);
                     if(xmlPullParser.getAttributeName(i).equals("layout")){
                         layoutid = xmlPullParser.getAttributeValue(i);
                     }else {
@@ -254,60 +256,30 @@ public class XmlDynamicView {
             } else{
                 if (!xmlPullParser.getName().contains(".")) {
                     widget = "android.widget." + xmlPullParser.getName();
-                }
-                try{
-                    Class<?> viewClass = Class.forName(widget);
-                    view = (View) viewClass.getConstructor(Context.class).newInstance(new Object[] { context });
-                }catch (ClassNotFoundException e) {
-                    if (!xmlPullParser.getName().contains(".")) {
+                    if(!XmlDynamicUtils.classExists(widget)){
                         widget = "android.view." + xmlPullParser.getName();
                     }
-                    try{
-                        Class<?> viewClass = Class.forName(widget);
-                        view = (View) viewClass.getConstructor(Context.class).newInstance(new Object[] { context });
-                    }catch (ClassNotFoundException e1) {
-                        // TODO Auto-generated catch block
+                }
+                Class<?> viewClass = Class.forName(widget);
+                try{
+                    view = (View) viewClass.getConstructor(Context.class).newInstance(new Object[] { context });
+                } catch (NoSuchMethodException e) {
+                    try {
+                        view = (View) viewClass.getConstructor(mConstructorSignature).newInstance(new Object[] { context, null });
+                    } catch (NoSuchMethodException e1) {
                         e1.printStackTrace();
                     }
                 }
             }
 
         } catch (InstantiationException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (InvocationTargetException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            Class<?> viewClass;
-            try {
-                viewClass = Class.forName(widget);
-                view = (View) viewClass.getConstructor(mConstructorSignature).newInstance(new Object[] { context, null });
-            } catch (ClassNotFoundException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (InstantiationException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (IllegalAccessException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (IllegalArgumentException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (InvocationTargetException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (NoSuchMethodException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
         if (view==null) return null;
 
@@ -356,7 +328,6 @@ public class XmlDynamicView {
                     }
                 }
             } catch (XmlPullParserException | IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             /* after create all the children apply layout properties
