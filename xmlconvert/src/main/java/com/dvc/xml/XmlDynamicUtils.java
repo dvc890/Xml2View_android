@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.dvc.xml.XmlDynamicProperty.TYPE;
@@ -95,8 +96,16 @@ public class XmlDynamicUtils {
                     applyMinWidth(view, dynProp);
                 }
                 break;
-                case MINHEIGTH: {
+                case MINHEIGHT: {
                     applyMinHeight(view, dynProp);
+                }
+                break;
+                case MAXWIDTH: {
+                    applyMaxWidth(view, dynProp);
+                }
+                break;
+                case MAXHEIGHT: {
+                    applyMaxHeight(view, dynProp);
                 }
                 break;
                 case ELLIPSIZE: {
@@ -147,6 +156,30 @@ public class XmlDynamicUtils {
                     applyCompoundDrawable(view, dynProp, 3);
                 }
                 break;
+                case MAX: {
+                    appSeekbarMax(view, dynProp);
+                }
+                break;
+                case PROGRESS: {
+                    appSeekbarProgress(view, dynProp);
+                }
+                break;
+                case SPLITTRACK: {
+                    appSplittrack(view, dynProp);
+                }
+                break;
+                case THUMB: {
+                    appSeekbarThumb(view, dynProp);
+                }
+                break;
+                case THUMBOFFSET: {
+                    appSeekbarThumbOffset(view, dynProp);
+                }
+                break;
+                case PROGRESSDRAWABLE: {
+                    applyProgressDrawable(view, dynProp);
+                }
+                break;
                 case ENABLED: {
                     applyEnabled(view, dynProp);
                 }
@@ -184,7 +217,7 @@ public class XmlDynamicUtils {
         return id;
     }
 
-	/**
+    /**
      * 动态设置View的布局属性
      * apply dynamic properties for layout in view
      *
@@ -611,6 +644,30 @@ public class XmlDynamicUtils {
     }
 
     /**
+     * apply maxmum Width in view(not support)
+     */
+    public static void applyMaxWidth(View view, XmlDynamicProperty property) {
+        if (view != null) {
+            if (property.type == TYPE.DIMEN) {
+            }
+            else if (property.type == TYPE.PATH) {
+            }
+        }
+    }
+
+    /**
+     * apply maxmum Height in view(not support)
+     */
+    public static void applyMaxHeight(View view, XmlDynamicProperty property) {
+        if (view != null) {
+            if (property.type == TYPE.DIMEN) {
+            }
+            else if (property.type == TYPE.PATH) {
+            }
+        }
+    }
+
+    /**
      * apply enabled in view
      */
     public static void applyEnabled(View view, XmlDynamicProperty property) {
@@ -926,6 +983,127 @@ public class XmlDynamicUtils {
             switch (property.type) {
                 case BOOLEAN: {
                     ((ImageView) view).setAdjustViewBounds(property.getValueBoolean());
+                }
+                break;
+            }
+        }
+    }
+
+    /*** SeekBar Properties ***/
+
+    /**
+     * apply Max property in SeekBar
+     */
+    private static void appSeekbarMax(View view, XmlDynamicProperty property) {
+        if (view instanceof SeekBar) {
+            switch (property.type) {
+                case INTEGER: {
+                    ((SeekBar) view).setMax(property.getValueInt());
+                }
+                break;
+                case PATH: {
+                    ((SeekBar) view).setMax((Integer) AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * apply Progress property in SeekBar
+     */
+    private static void appSeekbarProgress(View view, XmlDynamicProperty property) {
+        if (view instanceof SeekBar) {
+            switch (property.type) {
+                case INTEGER: {
+                    ((SeekBar) view).setProgress(property.getValueInt());
+                }
+                break;
+                case PATH: {
+                    ((SeekBar) view).setProgress((Integer) AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * apply Splittrack property in SeekBar
+     */
+    private static void appSplittrack(View view, XmlDynamicProperty property) {
+        if (view instanceof SeekBar) {
+            switch (property.type) {
+                case BOOLEAN: {
+                    ((SeekBar) view).setSplitTrack(property.getValueBoolean());
+                }
+                break;
+
+            }
+        }
+    }
+
+    /**
+     * apply Thumb property in SeekBar
+     */
+    private static void appSeekbarThumb(View view, XmlDynamicProperty property) {
+        if (view instanceof SeekBar) {
+            switch (property.type) {
+                case REF: {
+                }
+                break;
+                case BASE64: {
+                    ((SeekBar) view).setThumb(property.getValueBitmapDrawable());
+                }
+                break;
+                case DRAWABLE: {
+                    ((SeekBar) view).setThumb(property.getValueGradientDrawable());
+                }
+                break;
+                case PATH: {
+                    ((SeekBar) view).setThumb(com.dvc.xml.AssetsResUtils.getAssetDrawable(view.getContext(), property.getValueString()));
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * apply ThumbOffset property in SeekBar
+     */
+    private static void appSeekbarThumbOffset(View view, XmlDynamicProperty property) {
+        if (view instanceof SeekBar) {
+            switch (property.type) {
+                case DIMEN: {
+                    ((SeekBar) view).setThumbOffset(property.getValueInt());
+                }
+                break;
+                case PATH: {
+                    ((SeekBar) view).setThumbOffset((Integer) AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * apply ProgressDrawable property in SeekBar
+     */
+    public static void applyProgressDrawable(View view, XmlDynamicProperty property) {
+        if (view instanceof SeekBar) {
+            switch (property.type) {
+                case REF: {
+                }
+                break;
+                case BASE64: {
+                    ((SeekBar) view).setProgressDrawable(property.getValueBitmapDrawable());
+                }
+                break;
+                case DRAWABLE: {
+                    ((SeekBar) view).setProgressDrawable(property.getValueGradientDrawable());
+                }
+                break;
+                case PATH: {
+                    ((SeekBar) view).setProgressDrawable(com.dvc.xml.AssetsResUtils.getAssetDrawable(view.getContext(), property.getValueString()));
                 }
                 break;
             }

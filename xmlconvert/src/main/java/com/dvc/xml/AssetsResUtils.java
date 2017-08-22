@@ -6,8 +6,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PaintDrawable;
 import android.util.Xml;
 import android.view.InflateException;
+
+import com.dvc.xml.drawable.XmlDrawableUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -30,8 +33,6 @@ public class AssetsResUtils {
      * 将px值转换为dip或dp值，保证尺寸大小不变
      * 
      * @param pxValue
-     * @param scale
-     *            （DisplayMetrics类中属性density）
      * @return
      */ 
     public static float px2dip(Context context, float pxValue) { 
@@ -43,8 +44,6 @@ public class AssetsResUtils {
      * 将dip或dp值转换为px值，保证尺寸大小不变
      * 
      * @param dipValue
-     * @param scale
-     *            （DisplayMetrics类中属性density）
      * @return
      */ 
     public static float dip2px(Context context, float dipValue) { 
@@ -56,8 +55,6 @@ public class AssetsResUtils {
      * 将px值转换为sp值，保证文字大小不变
      * 
      * @param pxValue
-     * @param fontScale
-     *            （DisplayMetrics类中属性scaledDensity）
      * @return
      */ 
     public static float px2sp(Context context, float pxValue) { 
@@ -69,8 +66,6 @@ public class AssetsResUtils {
      * 将sp值转换为px值，保证文字大小不变
      * 
      * @param spValue
-     * @param fontScale
-     *            （DisplayMetrics类中属性scaledDensity）
      * @return
      */ 
     public static float sp2px(Context context, float spValue) { 
@@ -138,6 +133,8 @@ public class AssetsResUtils {
     public static Drawable getAssetDrawable(Context context, String name){
     	Drawable value = null;
     	String path = name+".png";
+		if(name.contains("@null"))
+			return new PaintDrawable(Color.TRANSPARENT);
     	if(name.startsWith("@"))
     		path = path.substring(1);
     	try {
@@ -149,7 +146,14 @@ public class AssetsResUtils {
 			try {
 				value = new BitmapDrawable(BitmapFactory.decodeStream(context.getResources().getAssets().open(path)));
 			} catch (IOException e1) {
-                throw new InflateException("dvc: getAssetDrawable Not Found \""+path+"\"");
+				path = name+".xml";
+				if(path.startsWith("@"))
+					path = path.substring(1);
+				try {
+					value = XmlDrawableUtils.createXmlDrawable(context, path);
+				} catch (IOException e2) {
+					throw new InflateException("dvc: getAssetDrawable Not Found \""+name+"\"");
+				}
 			}
 		}
 		return value;
@@ -203,10 +207,8 @@ public class AssetsResUtils {
     	        }
 	        }
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (XmlPullParserException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
 			try {

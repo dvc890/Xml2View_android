@@ -13,10 +13,10 @@
 		@XmlDynamicViewId(id = "ok_btn")
 		public RoundButton ok_btn;
 
-		protected void onCreate(Bundle savedInstanceState) {
-        	super.onCreate(savedInstanceState);
-        	View sampleView = XmlDynamicView.createView(this, "layout/example2.xml", this);
-        	ok_btn.setOnClickListener(this);
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            View sampleView = XmlDynamicView.createView(this, "layout/example2.xml", this);
+            ok_btn.setOnClickListener(this);
         }
 	}
 

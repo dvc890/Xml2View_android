@@ -7,18 +7,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
-import android.text.TextUtils;
 import android.util.Base64;
 import android.view.ViewGroup;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Arrays;
 
 /**
  * Created by dvc on 17/7/2017.
@@ -73,7 +69,9 @@ public class XmlDynamicProperty {
         SCALEX,
         SCALEY,
         MINWIDTH,
-        MINHEIGTH,
+        MINHEIGHT,
+        MAXWIDTH,
+        MAXHEIGHT,
         VISIBILITY,
         /* textView */
         TEXT,
@@ -92,6 +90,13 @@ public class XmlDynamicProperty {
         SRC,
         SCALETYPE,
         ADJUSTVIEWBOUNDS,
+        /* SeekBar */
+        MAX,
+        PROGRESS,
+        SPLITTRACK,
+        THUMB,
+        THUMBOFFSET,
+        PROGRESSDRAWABLE,
         /* layout */
         LAYOUT_ABOVE,
         LAYOUT_ALIGNBASELINE,
@@ -174,55 +179,7 @@ public class XmlDynamicProperty {
                 }
             }
             case DRAWABLE: {
-                JSONObject drawableProperties = (JSONObject)v;
-
-                GradientDrawable gd = new GradientDrawable();
-
-                if (drawableProperties!=null) {
-
-                    try { gd.setColor ( convertColor( drawableProperties.getString("COLOR") ) ); } catch (JSONException e) {}
-                    if (drawableProperties.has("CORNER")) {
-                        String cornerValues = null;
-                        try {
-                            cornerValues = drawableProperties.getString("CORNER");
-                        } catch (JSONException e){}
-                        if (!TextUtils.isEmpty(cornerValues)) {
-                            if (cornerValues.contains("|")) {
-                                float[] corners = new float[8];
-                                Arrays.fill(corners, 0);
-                                String[] values = cornerValues.split("\\|");
-                                int count = Math.min(values.length, corners.length);
-                                for (int i=0 ; i<count ; i++) {
-                                    try {
-                                        corners[i] = convertDimenToPixel(values[i]);
-                                    } catch (Exception e) {
-                                        corners[i] = 0f;
-                                    }
-                                }
-                                gd.setCornerRadii(corners);
-                            } else {
-                                try {
-                                    gd.setCornerRadius( convertDimenToPixel(cornerValues) );
-                                } catch (Exception e) {
-                                    gd.setCornerRadius(0f);
-                                }
-                            }
-                        }
-
-                    }
-                    int strokeColor = 0x00FFFFFF;
-                    int strokeSize = 0;
-                    if (drawableProperties.has("STROKECOLOR")) {
-                        try { strokeColor = convertColor( drawableProperties.getString("STROKECOLOR") ); } catch (JSONException e) {}
-                    }
-                    if (drawableProperties.has("STROKESIZE")) {
-                        try { strokeSize = (int) convertDimenToPixel( drawableProperties.getString("STROKESIZE") ); } catch (JSONException e) {}
-                    }
-                    gd.setStroke(strokeSize, strokeColor);
-
-                }
-
-                return gd;
+                //come soon
             }
         }
         return v;
@@ -292,8 +249,9 @@ public class XmlDynamicProperty {
 		case SCALEX:
 		case SCALEY:
 		case MINWIDTH:
-		case MINHEIGTH:
+		case MINHEIGHT:
 		case TEXTSIZE:
+        case THUMBOFFSET:
 			return TYPE.DIMEN;
 		case BACKGROUND:
             if(v.toString().startsWith("@"))
@@ -310,6 +268,7 @@ public class XmlDynamicProperty {
 		case LAYOUT_CENTERINPARENT:
 		case LAYOUT_CENTERVERTICAL:
         case ADJUSTVIEWBOUNDS:
+        case SPLITTRACK:
 			return TYPE.BOOLEAN;
         case TEXT:
         case HINT:
@@ -327,6 +286,8 @@ public class XmlDynamicProperty {
 		case TEXTCOLOR:
 			return TYPE.COLOR;
 		case MAXLINES:
+        case MAX:
+        case PROGRESS:
 			return TYPE.INTEGER;
         case LAYOUT_WEIGHT:
         case WEIGHTSUM:
@@ -337,6 +298,8 @@ public class XmlDynamicProperty {
         case DRAWABLELEFT:
         case DRAWABLERIGHT:
         case SRC:
+        case PROGRESSDRAWABLE:
+        case THUMB:
             if(v.toString().startsWith("@"))
                 return TYPE.PATH;
             else if(v.toString().startsWith("%ref:"))

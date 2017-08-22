@@ -38,11 +38,13 @@
             <Button
                 android:id="@+id/btn_config_share_del_cancel"
                 android:text="@string/config_share_login_cancel"
-                android:textColor="@color/color_config_text"
+                android:textColor="@color/dialog_button"
                 android:textSize="14sp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="40dp" />
+                android:layout_height="40dp"
+                android:background="@drawable/main_tab_assistant"
+            />
             <View
                 android:background="#29352d"
                 android:layout_width="1dp"
@@ -50,11 +52,12 @@
             <Button
                 android:id="@+id/btn_config_share_del_ok"
                 android:text="@string/ok"
-                android:textColor="@color/color_config_active"
+                android:textColor="@color/dialog_button"
                 android:textSize="14sp"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="40dp" />
+                android:layout_height="40dp"
+                android:background="@drawable/main_tab_assistant"/>
         </LinearLayout>
     </LinearLayout>
     <include layout="@layout/example"
