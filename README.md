@@ -3,6 +3,7 @@
 * **支持自定义View**
 * **在Assets下模拟R.id环境**
 * **支持include字段**
+* **支持Xml格式的Drawable资源**
 
 ## 如何获取布局中的View对象
 
