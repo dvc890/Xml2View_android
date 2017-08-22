@@ -22,8 +22,8 @@ import java.io.InputStream;
  */
 public class XmlDynamicProperty {
 
-	Context mContext;
-	
+    Context mContext;
+
     /**
      * 一些可能处理的类型
      * possible types that we handle
@@ -170,7 +170,7 @@ public class XmlDynamicProperty {
             }
             case BASE64: {
                 try {
-                	String mbyte = v.toString().replace("%BASE64:", "");
+                    String mbyte = v.toString().replace("%BASE64:", "");
                     InputStream stream = new ByteArrayInputStream(Base64.decode(mbyte, Base64.DEFAULT));
                     return BitmapFactory.decodeStream(stream);
                 }
@@ -196,22 +196,22 @@ public class XmlDynamicProperty {
         String xmlAttributeValue = xmlPullParser.getAttributeValue(i);
         boolean iscustom = (!xmlPullParser.getAttributeName(i).split(":")[0].equals("android") && !xmlPullParser.getAttributeName(i).split(":")[0].equals("xmlns"));
         try {
-        	if(iscustom){
+            if(iscustom){
                 field = FIELD.FUNCTION;
-        		functionstr = xmlAttributeName;
-        	}else
+                functionstr = xmlAttributeName;
+            }else
                 field = FIELD.valueOf(xmlAttributeName.toUpperCase().trim());
         } catch (Exception e) {
             field = FIELD.NO_VALID;
         }
         try {
-        	if(iscustom){
-        		if(xmlAttributeValue.startsWith("@"))
-        			type = TYPE.PATH;
-        		else
-        			type = getAttrsType(mContext,xmlPullParser.getName(),xmlAttributeName);
-        	}else
-        		type = getTYPE(xmlAttributeValue);
+            if(iscustom){
+                if(xmlAttributeValue.startsWith("@"))
+                    type = TYPE.PATH;
+                else
+                    type = getAttrsType(mContext,xmlPullParser.getName(),xmlAttributeName);
+            }else
+                type = getTYPE(xmlAttributeValue);
         } catch (Exception e) {
             type = TYPE.NO_VALID;
         }
@@ -223,138 +223,140 @@ public class XmlDynamicProperty {
     public boolean isValid() {
         return value!=null;
     }
-    
+
     /**
      * Get data types through field(Not completed)
      * @param v
      * @return
      */
     public TYPE getTYPE(Object v){
-		if(v.toString().startsWith("@")){
-			return TYPE.PATH;
-		}
-    	switch (field) {
-		case LAYOUT_WIDTH:
-		case LAYOUT_HEIGHT:
-		case PADDINGLEFT:
-		case PADDINGRIGHT:
-		case PADDINGTOP:
-		case PADDINGBOTTOM:
-		case PADDING:
-		case LAYOUT_MARGINLEFT:
-		case LAYOUT_MARGINRIGHT:
-		case LAYOUT_MARGINTOP:
-		case LAYOUT_MARGINBOTTOM:
-		case LAYOUT_MARGIN:
-		case SCALEX:
-		case SCALEY:
-		case MINWIDTH:
-		case MINHEIGHT:
-		case TEXTSIZE:
-        case THUMBOFFSET:
-			return TYPE.DIMEN;
-		case BACKGROUND:
-            if(v.toString().startsWith("@"))
-                return TYPE.PATH;
-            else if(v.toString().startsWith("%ref:"))
-                return TYPE.REF;
-            else if(v.toString().startsWith("%BASE64:"))
-                return TYPE.BASE64;
-			return TYPE.COLOR;
-		case ENABLED:
-		case SELECTED:
-		case CLICKABLE:
-		case LAYOUT_CENTERHORIZONTAL:
-		case LAYOUT_CENTERINPARENT:
-		case LAYOUT_CENTERVERTICAL:
-        case ADJUSTVIEWBOUNDS:
-        case SPLITTRACK:
-			return TYPE.BOOLEAN;
-        case TEXT:
-        case HINT:
-            if(v.toString().startsWith("@"))
-                return TYPE.PATH;
-            else if(v.toString().startsWith("%ref:"))
-                return TYPE.REF;
-		case VISIBILITY:
-		case GRAVITY:
-		case ORIENTATION:
-		case LAYOUT_GRAVITY:
-		case ELLIPSIZE:
-        case SCALETYPE:
-			return TYPE.STRING;
-		case TEXTCOLOR:
-			return TYPE.COLOR;
-		case MAXLINES:
-        case MAX:
-        case PROGRESS:
-			return TYPE.INTEGER;
-        case LAYOUT_WEIGHT:
-        case WEIGHTSUM:
-            return TYPE.FLOAT;
-		case TEXTSTYLE:
-		case DRAWABLETOP:
-        case DRAWABLEBOTTOM:
-        case DRAWABLELEFT:
-        case DRAWABLERIGHT:
-        case SRC:
-        case PROGRESSDRAWABLE:
-        case THUMB:
-            if(v.toString().startsWith("@"))
-                return TYPE.PATH;
-            else if(v.toString().startsWith("%ref:"))
-                return TYPE.REF;
-            else if(v.toString().startsWith("%BASE64:"))
-                return TYPE.BASE64;
-            break;
-		case LAYOUT_ABOVE:
-		case LAYOUT_ALIGNBASELINE:
-		case LAYOUT_ALIGNBOTTOM:
-		case LAYOUT_ALIGNEND:
-		case LAYOUT_ALIGNLEFT:
-		case LAYOUT_ALIGNPARENTBOTTOM:
-		case LAYOUT_ALIGNPARENTEND:
-		case LAYOUT_ALIGNPARENTLEFT:
-		case LAYOUT_ALIGNPARENTRIGHT:
-		case LAYOUT_ALIGNPARENTSTART:
-		case LAYOUT_ALIGNPARENTTOP:
-		case LAYOUT_ALIGNRIGHT:
-		case LAYOUT_ALIGNSTART:
-		case LAYOUT_ALIGNTOP:
-		case LAYOUT_ALIGNWITHPARENTIFMISSING:
-		case LAYOUT_BELOW:
-		case LAYOUT_TOENDOF:
-		case LAYOUT_TOLEFTOF:
-		case LAYOUT_TORIGHTOF:
-		case LAYOUT_TOSTARTOF:
-	
-		case TAG:
-			return TYPE.NO_VALID;
-		}
-		
-		return TYPE.NO_VALID;
+        if(v.toString().startsWith("@")){
+            return TYPE.PATH;
+        }
+        switch (field) {
+            case LAYOUT_WIDTH:
+            case LAYOUT_HEIGHT:
+            case PADDINGLEFT:
+            case PADDINGRIGHT:
+            case PADDINGTOP:
+            case PADDINGBOTTOM:
+            case PADDING:
+            case LAYOUT_MARGINLEFT:
+            case LAYOUT_MARGINRIGHT:
+            case LAYOUT_MARGINTOP:
+            case LAYOUT_MARGINBOTTOM:
+            case LAYOUT_MARGIN:
+            case SCALEX:
+            case SCALEY:
+            case MINWIDTH:
+            case MINHEIGHT:
+            case MAXWIDTH:
+            case MAXHEIGHT:
+            case TEXTSIZE:
+            case THUMBOFFSET:
+                return TYPE.DIMEN;
+            case BACKGROUND:
+                if(v.toString().startsWith("@"))
+                    return TYPE.PATH;
+                else if(v.toString().startsWith("%ref:"))
+                    return TYPE.REF;
+                else if(v.toString().startsWith("%BASE64:"))
+                    return TYPE.BASE64;
+                return TYPE.COLOR;
+            case ENABLED:
+            case SELECTED:
+            case CLICKABLE:
+            case LAYOUT_CENTERHORIZONTAL:
+            case LAYOUT_CENTERINPARENT:
+            case LAYOUT_CENTERVERTICAL:
+            case ADJUSTVIEWBOUNDS:
+            case SPLITTRACK:
+                return TYPE.BOOLEAN;
+            case TEXT:
+            case HINT:
+                if(v.toString().startsWith("@"))
+                    return TYPE.PATH;
+                else if(v.toString().startsWith("%ref:"))
+                    return TYPE.REF;
+            case VISIBILITY:
+            case GRAVITY:
+            case ORIENTATION:
+            case LAYOUT_GRAVITY:
+            case ELLIPSIZE:
+            case SCALETYPE:
+                return TYPE.STRING;
+            case TEXTCOLOR:
+                return TYPE.COLOR;
+            case MAXLINES:
+            case MAX:
+            case PROGRESS:
+                return TYPE.INTEGER;
+            case LAYOUT_WEIGHT:
+            case WEIGHTSUM:
+                return TYPE.FLOAT;
+            case TEXTSTYLE:
+            case DRAWABLETOP:
+            case DRAWABLEBOTTOM:
+            case DRAWABLELEFT:
+            case DRAWABLERIGHT:
+            case SRC:
+            case PROGRESSDRAWABLE:
+            case THUMB:
+                if(v.toString().startsWith("@"))
+                    return TYPE.PATH;
+                else if(v.toString().startsWith("%ref:"))
+                    return TYPE.REF;
+                else if(v.toString().startsWith("%BASE64:"))
+                    return TYPE.BASE64;
+                break;
+            case LAYOUT_ABOVE:
+            case LAYOUT_ALIGNBASELINE:
+            case LAYOUT_ALIGNBOTTOM:
+            case LAYOUT_ALIGNEND:
+            case LAYOUT_ALIGNLEFT:
+            case LAYOUT_ALIGNPARENTBOTTOM:
+            case LAYOUT_ALIGNPARENTEND:
+            case LAYOUT_ALIGNPARENTLEFT:
+            case LAYOUT_ALIGNPARENTRIGHT:
+            case LAYOUT_ALIGNPARENTSTART:
+            case LAYOUT_ALIGNPARENTTOP:
+            case LAYOUT_ALIGNRIGHT:
+            case LAYOUT_ALIGNSTART:
+            case LAYOUT_ALIGNTOP:
+            case LAYOUT_ALIGNWITHPARENTIFMISSING:
+            case LAYOUT_BELOW:
+            case LAYOUT_TOENDOF:
+            case LAYOUT_TOLEFTOF:
+            case LAYOUT_TORIGHTOF:
+            case LAYOUT_TOSTARTOF:
+
+            case TAG:
+                return TYPE.NO_VALID;
+        }
+
+        return TYPE.NO_VALID;
     }
 
     public static TYPE getAttrsType(Context context, String className, String funtionName){
-    	String format = AssetsResUtils.getAssetAttrsformatValue(context, className, funtionName);
-    	if(format == null)
-    		return TYPE.NO_VALID;
-    	if(format.contains("string")){
-			return TYPE.STRING;
-    	}else if(format.contains("color")){
-			return TYPE.COLOR;
-    	}else if(format.contains("dimension")){
-			return TYPE.DIMEN;
-    	}else if(format.contains("boolean")){
-			return TYPE.BOOLEAN;
-    	}else if(format.contains("float")){
-			return TYPE.FLOAT;
-    	}else if(format.contains("integer")){
-			return TYPE.INTEGER;
-    	}else if(format.contains("reference")){
-			return TYPE.REF;
-    	}
-		return TYPE.NO_VALID;
+        String format = AssetsResUtils.getAssetAttrsformatValue(context, className, funtionName);
+        if(format == null)
+            return TYPE.NO_VALID;
+        if(format.contains("string")){
+            return TYPE.STRING;
+        }else if(format.contains("color")){
+            return TYPE.COLOR;
+        }else if(format.contains("dimension")){
+            return TYPE.DIMEN;
+        }else if(format.contains("boolean")){
+            return TYPE.BOOLEAN;
+        }else if(format.contains("float")){
+            return TYPE.FLOAT;
+        }else if(format.contains("integer")){
+            return TYPE.INTEGER;
+        }else if(format.contains("reference")){
+            return TYPE.REF;
+        }
+        return TYPE.NO_VALID;
     }
 
     /**
@@ -420,11 +422,11 @@ public class XmlDynamicProperty {
         return JSONObject.class.cast(value);
     }
     public Object getValueObject() {
-    	return value;
+        return value;
     }
 
     public String getFunctionStr(){
-    	return functionstr;
+        return functionstr;
     }
 
 

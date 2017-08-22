@@ -649,8 +649,28 @@ public class XmlDynamicUtils {
     public static void applyMaxWidth(View view, XmlDynamicProperty property) {
         if (view != null) {
             if (property.type == TYPE.DIMEN) {
+                Class clazz = view.getClass().getSuperclass().getSuperclass();
+                try {
+                    Field f = clazz.getDeclaredField("mMaxWidth");
+                    f.setAccessible(true);
+                    f.set(view,property.getValueInt());
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
             else if (property.type == TYPE.PATH) {
+                Class clazz = view.getClass().getSuperclass().getSuperclass();
+                try {
+                    Field f = clazz.getDeclaredField("mMaxWidth");
+                    f.setAccessible(true);
+                    f.set(view,AssetsResUtils.getAssetValue(view.getContext(),property.getValueString()));
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -661,9 +681,9 @@ public class XmlDynamicUtils {
     public static void applyMaxHeight(View view, XmlDynamicProperty property) {
         if (view != null) {
             if (property.type == TYPE.DIMEN) {
-                Class seekbarClazz = view.getClass().getSuperclass().getSuperclass();
+                Class clazz = view.getClass().getSuperclass().getSuperclass();
                 try {
-                    Field f = seekbarClazz.getDeclaredField("mMaxHeight");
+                    Field f = clazz.getDeclaredField("mMaxHeight");
                     f.setAccessible(true);
                     f.set(view,property.getValueInt());
                 } catch (NoSuchFieldException e) {
@@ -673,9 +693,9 @@ public class XmlDynamicUtils {
                 }
             }
             else if (property.type == TYPE.PATH) {
-                Class seekbarClazz = view.getClass().getSuperclass().getSuperclass();
+                Class clazz = view.getClass().getSuperclass().getSuperclass();
                 try {
-                    Field f = seekbarClazz.getDeclaredField("mMaxHeight");
+                    Field f = clazz.getDeclaredField("mMaxHeight");
                     f.setAccessible(true);
                     f.set(view,AssetsResUtils.getAssetValue(view.getContext(),property.getValueString()));
                 } catch (NoSuchFieldException e) {
