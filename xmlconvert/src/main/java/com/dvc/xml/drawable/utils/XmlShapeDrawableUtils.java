@@ -3,7 +3,6 @@ package com.dvc.xml.drawable.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 
 import com.dvc.xml.drawable.XmlDrawableProperty;
@@ -24,7 +23,6 @@ public class XmlShapeDrawableUtils {
 	@SuppressLint("NewApi")
 	public static GradientDrawable generateDrawable(Context mContext, List<XmlDrawableProperty> properties){
 		GradientDrawable value = new GradientDrawable();
-		ShapeDrawable value2;
 		
 		for (XmlDrawableProperty dynProp : properties) {
 			switch (dynProp.name) {

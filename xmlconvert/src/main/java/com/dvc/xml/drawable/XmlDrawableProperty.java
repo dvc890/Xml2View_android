@@ -374,8 +374,13 @@ public class XmlDrawableProperty {
 			return XD_TYPE.INTEGER;
 
 		case drawable:
-			break;
-
+            if(v.toString().startsWith("@"))
+                return XD_TYPE.PATH;
+            else if(v.toString().startsWith("%ref:"))
+                return XD_TYPE.REF;
+            else if(v.toString().startsWith("%BASE64:"))
+                return XD_TYPE.BASE64;
+            return XD_TYPE.COLOR;
 		case id:
 		case gravity:
 		case shape:

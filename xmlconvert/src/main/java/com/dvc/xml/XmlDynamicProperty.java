@@ -364,7 +364,7 @@ public class XmlDynamicProperty {
      * @param varName
      * @return search in clazz of possible variable field (varName) and return its value
      */
-    public Object getValueInt(Class clazz, String varName) {
+    public static Object getValueInt(Class clazz, String varName) {
 
         java.lang.reflect.Field fieldRequested = null;
 
