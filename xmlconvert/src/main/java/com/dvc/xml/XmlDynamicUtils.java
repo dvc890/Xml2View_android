@@ -656,13 +656,33 @@ public class XmlDynamicUtils {
     }
 
     /**
-     * apply maxmum Height in view(not support)
+     * apply maxmum Height in view
      */
     public static void applyMaxHeight(View view, XmlDynamicProperty property) {
         if (view != null) {
             if (property.type == TYPE.DIMEN) {
+                Class seekbarClazz = view.getClass().getSuperclass().getSuperclass();
+                try {
+                    Field f = seekbarClazz.getDeclaredField("mMaxHeight");
+                    f.setAccessible(true);
+                    f.set(view,property.getValueInt());
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
             else if (property.type == TYPE.PATH) {
+                Class seekbarClazz = view.getClass().getSuperclass().getSuperclass();
+                try {
+                    Field f = seekbarClazz.getDeclaredField("mMaxHeight");
+                    f.setAccessible(true);
+                    f.set(view,AssetsResUtils.getAssetValue(view.getContext(),property.getValueString()));
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -1289,9 +1309,10 @@ public class XmlDynamicUtils {
 
         for (Field field : target.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(XmlDynamicViewId.class)) {
+                field.setAccessible(true);
                 /* if variable is annotated with @XmlDynamicViewId */
                 final XmlDynamicViewId dynamicViewIdAnnotation = field.getAnnotation(XmlDynamicViewId.class);
-                /* get the Id of the view. if it is not set in annotation user the variable FIELD */
+                /* get the Id of the view. if it is not set in annotation user the variable name */
                 String id = dynamicViewIdAnnotation.id();
                 if (id.equalsIgnoreCase(""))
                     id = field.getName();

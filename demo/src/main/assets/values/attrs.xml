@@ -4,6 +4,7 @@
     <declare-styleable name="SeekBarRelativeLayout">
         <attr name="testcustomfunction" format="string" />
         <attr name="testcustomfunction2" format="integer" />
+        <attr name="initSeekBar" />
     </declare-styleable>
 
 

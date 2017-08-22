@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <SeekBar
+        android:id="@+id/seek_bar_relative_layout_seek_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:max="100"
+        android:maxHeight="3px"
+        android:minHeight="3px"
+        android:progress="50"
+        android:splitTrack="false"
+        android:thumb="@drawable/beauty_thumb"
+        android:progressDrawable="@drawable/beauty_face_seek_bar"/>
+    <!---->
+
+    <TextView
+        android:id="@+id/seek_bar_relative_layout_text_view"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:text="0"
+        android:textColor="#ffffff"
+        android:textSize="8sp" />
+
+</RelativeLayout>

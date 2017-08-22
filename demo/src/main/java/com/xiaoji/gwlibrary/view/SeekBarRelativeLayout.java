@@ -1,15 +1,15 @@
 package com.xiaoji.gwlibrary.view;
 
-import com.dvc.xmlviewanalysis.R;
-
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.dvc.xml.XmlDynamicView;
+import com.dvc.xml.XmlDynamicViewId;
 
 /**
  * Created by dvc on 2017/4/10.
@@ -22,7 +22,8 @@ public class SeekBarRelativeLayout extends RelativeLayout {
     public SeekBarRelativeLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
-        LayoutInflater.from(mContext).inflate(R.layout.seekbarrelativelayout, this, true);
+        addView(XmlDynamicView.createView(context,"layout/seekbarrelativelayout.xml",this));
+//        LayoutInflater.from(mContext).inflate(R.layout.seekbarrelativelayout, this, true);
         isfrist = true;
         initSeekBar();
     }
@@ -30,7 +31,8 @@ public class SeekBarRelativeLayout extends RelativeLayout {
     public SeekBarRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context;
-        LayoutInflater.from(mContext).inflate(R.layout.seekbarrelativelayout, this, true);
+        addView(XmlDynamicView.createView(context,"layout/seekbarrelativelayout.xml",this));
+//        LayoutInflater.from(mContext).inflate(R.layout.seekbarrelativelayout, this, true);
         isfrist = true;
         initSeekBar();
     }
@@ -42,10 +44,13 @@ public class SeekBarRelativeLayout extends RelativeLayout {
     public void testcustomfunction2(int num){
     	Toast.makeText(mContext, num+"", Toast.LENGTH_SHORT).show();
     }
-    
 
+
+    @XmlDynamicViewId(id = "seek_bar_relative_layout_text_view")
     private TextView textView;
+    @XmlDynamicViewId(id = "seek_bar_relative_layout_seek_bar")
     private SeekBar seekBar;
+
     private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener;
     private int textViewPaddingLeft = 0;
 
@@ -110,8 +115,8 @@ public class SeekBarRelativeLayout extends RelativeLayout {
     }
 
     public void initSeekBar() {
-        seekBar = (SeekBar) findViewById(R.id.seek_bar_relative_layout_seek_bar);
-        textView = (TextView) findViewById(R.id.seek_bar_relative_layout_text_view);
+//        seekBar = (SeekBar) findViewById(R.id.seek_bar_relative_layout_seek_bar);
+//        textView = (TextView) findViewById(R.id.seek_bar_relative_layout_text_view);
         //textView.setVisibility(INVISIBLE);
 
         textViewPaddingLeft = ((LayoutParams) textView.getLayoutParams()).leftMargin;
