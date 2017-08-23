@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 
+import com.dvc.xml.AssetsResUtils;
 import com.dvc.xml.drawable.XmlDrawableProperty;
 
 import java.util.List;
@@ -87,11 +88,11 @@ public class XmlShapeDrawableUtils {
 			break;
 
 			case SOLID: {
-				applySolidProperty(value ,dynProp.getValuePropertyList());
+				applySolidProperty(mContext, value ,dynProp.getValuePropertyList());
 			}
 			break;
 			case STROKE: {
-				applyStrokeProperty(value, dynProp.getValuePropertyList());
+				applyStrokeProperty(mContext, value, dynProp.getValuePropertyList());
 			}
 			break;
 			case SIZE: {
@@ -103,7 +104,7 @@ public class XmlShapeDrawableUtils {
 			}
 			break;
 			case GRADIENT: {
-				applyGradientProperty(value, dynProp.getValuePropertyList());
+				applyGradientProperty(mContext, value, dynProp.getValuePropertyList());
 			}
 			break;
 			case PADDING: {
@@ -119,12 +120,21 @@ public class XmlShapeDrawableUtils {
 	/**
 	 * apply some solid properties in ShapeDrawable
 	 */
-	public static void applySolidProperty(GradientDrawable value, List<XmlDrawableProperty> properties){
+	public static void applySolidProperty(Context mContext, GradientDrawable value, List<XmlDrawableProperty> properties){
 
 		for (XmlDrawableProperty dynProp : properties) {
 			switch (dynProp.field) {
 			case color:{
-				value.setColor(dynProp.getValueColor());
+				switch (dynProp.type) {
+					case PATH: {
+						value.setColor((Integer) AssetsResUtils.getAssetValue(mContext, dynProp.getValueString()));
+					}
+					break;
+					case COLOR: {
+						value.setColor(dynProp.getValueColor());
+					}
+					break;
+				}
 			}
 			break;
 
@@ -135,7 +145,7 @@ public class XmlShapeDrawableUtils {
 	/**
 	 * apply some stroke properties in ShapeDrawable
 	 */
-	public static void applyStrokeProperty(GradientDrawable value, List<XmlDrawableProperty> properties){
+	public static void applyStrokeProperty(Context mContext, GradientDrawable value, List<XmlDrawableProperty> properties){
 		/** STROKE field **/
 		int st_c = 0,st_w = 0;
 		float st_dw=0f,st_dg=0f;
@@ -143,7 +153,16 @@ public class XmlShapeDrawableUtils {
 		for (XmlDrawableProperty dynProp : properties) {
 			switch (dynProp.field) {
 			case color:{
-				st_c=dynProp.getValueColor();
+				switch (dynProp.type) {
+					case PATH: {
+						st_c = (Integer) AssetsResUtils.getAssetValue(mContext, dynProp.getValueString());
+					}
+					break;
+					case COLOR: {
+						st_c = dynProp.getValueColor();
+					}
+					break;
+				}
 			}
 			break;
 			case width:{
@@ -241,7 +260,7 @@ public class XmlShapeDrawableUtils {
 	 * apply some gradient properties in ShapeDrawable
 	 */
 	@SuppressLint("NewApi")
-	public static void applyGradientProperty(GradientDrawable value, List<XmlDrawableProperty> properties){
+	public static void applyGradientProperty(Context mContext, GradientDrawable value, List<XmlDrawableProperty> properties){
 		/** GRADIENT field **/
 		int gd_x=0,gd_y=0,sc=0,cc=0,ec=0;
 
@@ -282,15 +301,42 @@ public class XmlShapeDrawableUtils {
 			}
 			break;
 			case startColor:{
-				sc = dynProp.getValueColor();
+				switch (dynProp.type) {
+					case PATH: {
+						sc = (Integer) AssetsResUtils.getAssetValue(mContext, dynProp.getValueString());
+					}
+					break;
+					case COLOR: {
+						sc = dynProp.getValueColor();
+					}
+					break;
+				}
 			}
 			break;
 			case centerColor:{
-				cc = dynProp.getValueColor();
+				switch (dynProp.type) {
+					case PATH: {
+						cc = (Integer) AssetsResUtils.getAssetValue(mContext, dynProp.getValueString());
+					}
+					break;
+					case COLOR: {
+						cc = dynProp.getValueColor();
+					}
+					break;
+				}
 			}
 			break;
 			case endColor:{
-				ec = dynProp.getValueColor();
+				switch (dynProp.type) {
+					case PATH: {
+						ec = (Integer) AssetsResUtils.getAssetValue(mContext, dynProp.getValueString());
+					}
+					break;
+					case COLOR: {
+						ec = dynProp.getValueColor();
+					}
+					break;
+				}
 			}
 			break;
 			case angle:{
@@ -341,7 +387,6 @@ public class XmlShapeDrawableUtils {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 			value.setColors(new int[]{sc,cc,ec});
 		}
-		GradientDrawable g = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, null);
 	}
 
 	/**

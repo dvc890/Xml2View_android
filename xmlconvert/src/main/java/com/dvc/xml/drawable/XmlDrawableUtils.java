@@ -6,7 +6,13 @@ import android.view.InflateException;
 
 import com.dvc.xml.drawable.XmlDrawableProperty.XD_NAME;
 import com.dvc.xml.drawable.utils.XmlAnimationDrawableUtils;
+import com.dvc.xml.drawable.utils.XmlBitmapDrawableUtils;
+import com.dvc.xml.drawable.utils.XmlClipDrawableUtils;
+import com.dvc.xml.drawable.utils.XmlColorDrawableUtils;
+import com.dvc.xml.drawable.utils.XmlInsetDrawableUtils;
 import com.dvc.xml.drawable.utils.XmlLayerDrawableUtils;
+import com.dvc.xml.drawable.utils.XmlRotateDrawableUtils;
+import com.dvc.xml.drawable.utils.XmlScaleDrawableUtils;
 import com.dvc.xml.drawable.utils.XmlShapeDrawableUtils;
 import com.dvc.xml.drawable.utils.XmlStateListDrawableUtils;
 
@@ -124,19 +130,26 @@ public class XmlDrawableUtils {
 			value = XmlStateListDrawableUtils.generateDrawable(mContext, properties);
 			break;
 		case INSET:
+			value = XmlInsetDrawableUtils.generateDrawable(mContext, properties);
 			break;
 		case BITMAP:
+			value = XmlBitmapDrawableUtils.generateDrawable(mContext, properties);
 			break;
 		case CLIP:
+			value = XmlClipDrawableUtils.generateDrawable(mContext, properties);
 			break;
 		case COLOR:
+			value = XmlColorDrawableUtils.generateDrawable(mContext, properties);
 			break;
 		case ROTATE:
+			value = XmlRotateDrawableUtils.generateDrawable(mContext, properties);
 			break;
 		case SCALE:
+			value = XmlScaleDrawableUtils.generateDrawable(mContext, properties);
 			break;
 		case NINE_PATCH:/*nine-patch*/
-		break;
+			// To be support
+			break;
 		case LAYER_LIST:/*layer-list*/
 			value = XmlLayerDrawableUtils.generateDrawable(mContext, properties);
 			break;

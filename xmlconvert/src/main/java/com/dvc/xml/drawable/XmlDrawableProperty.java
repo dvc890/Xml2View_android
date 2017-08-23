@@ -26,8 +26,8 @@ import java.util.List;
  */
 public class XmlDrawableProperty {
 
-	Context mContext;
-	
+    Context mContext;
+
     /**
      * 一些可能处理的类型
      * possible types that we handle
@@ -46,29 +46,29 @@ public class XmlDrawableProperty {
         JSON,
         PATH,
     }
-    
+
     public enum XD_NAME {
-    	SHAPE,
-    	INSET,
-    	SELECTOR,
-    	BITMAP,
-    	CLIP,
-    	COLOR,
-    	ROTATE,
-    	SCALE,
-    	NINE_PATCH,/*nine-patch*/
-    	LAYER_LIST,/*layer-list*/
-    	ANIMATION_LIST,/*animation-list*/
-    	
-    	SOLID,
-    	STROKE,
-    	SIZE,
-    	CORNERS,
-    	GRADIENT,
-    	PADDING,
-    	ITEM
+        SHAPE,
+        INSET,
+        SELECTOR,
+        BITMAP,
+        CLIP,
+        COLOR,
+        ROTATE,
+        SCALE,
+        NINE_PATCH,/*nine-patch*/
+        LAYER_LIST,/*layer-list*/
+        ANIMATION_LIST,/*animation-list*/
+
+        SOLID,
+        STROKE,
+        SIZE,
+        CORNERS,
+        GRADIENT,
+        PADDING,
+        ITEM
     }
-    
+
 
     /**
      * 一些可能处理的字段
@@ -76,7 +76,7 @@ public class XmlDrawableProperty {
      **/
     public enum XD_FIELD {
         no_valid,
-    	/** shape **/
+        /** shape **/
         visible,
         dither,
         innerRadiusRatio,
@@ -132,6 +132,15 @@ public class XmlDrawableProperty {
         scaleHeight,
         scaleGravity,
         useIntrinsicSizeAsMinimum,
+        /*** bitmap ***/
+        src,
+        antialias,
+        filter,
+        tileMode,
+        tileModeX,
+        tileModeY,
+        mipMap,
+        alpha,
         /*** selector ***/
         variablePadding,
         constantSize,
@@ -173,23 +182,23 @@ public class XmlDrawableProperty {
         state_drag_hovered,
         state_accessibility_focused
     }
-    
+
     public enum Shape {
-    	  RECTANGLE,
-    	  OVAL,
-    	  LINE,
-    	  RING,
+        RECTANGLE,
+        OVAL,
+        LINE,
+        RING,
     }
-    
+
     public enum Gradient {
-    	LINEAR,
-    	RADIAL,
-    	SWEEP,
+        LINEAR,
+        RADIAL,
+        SWEEP,
     }
-    
+
     public enum PaddingMode {
-    	NEST,
-    	STACK
+        NEST,
+        STACK
     }
 
     public XD_NAME name;
@@ -208,24 +217,24 @@ public class XmlDrawableProperty {
         name = XD_NAME.valueOf(xmlPullParser.getName().replace("-", "_").toUpperCase().trim());
         try {
             field = XD_FIELD.valueOf(xmlAttributeName/*.toUpperCase()*/.trim());
-		} catch (Exception e) {
-			field = XD_FIELD.no_valid;
-		}
+        } catch (Exception e) {
+            field = XD_FIELD.no_valid;
+        }
         try {
-    		type = getTYPE(xmlAttributeValue);
-		} catch (Exception e) {
-			type = XD_TYPE.NO_VALID;
-		}
-        
+            type = getTYPE(xmlAttributeValue);
+        } catch (Exception e) {
+            type = XD_TYPE.NO_VALID;
+        }
+
         try {
             value = convertValue(xmlAttributeValue);
         } catch (Exception e) {}
     }
-    
+
     public XmlDrawableProperty(Context context, String name, ArrayList<XmlDrawableProperty> properties) {
         this.name = XD_NAME.valueOf(name.replace("-", "_").toUpperCase().trim());
-		field = XD_FIELD.no_valid;
-		type = XD_TYPE.NO_VALID;
+        field = XD_FIELD.no_valid;
+        type = XD_TYPE.NO_VALID;
         this.value = properties;
     }
 
@@ -268,7 +277,7 @@ public class XmlDrawableProperty {
             }
             case BASE64: {
                 try {
-                	String mbyte = v.toString().replace("%BASE64:", "");
+                    String mbyte = v.toString().replace("%BASE64:", "");
                     InputStream stream = new ByteArrayInputStream(Base64.decode(mbyte, Base64.DEFAULT));
                     return BitmapFactory.decodeStream(stream);
                 }
@@ -277,7 +286,7 @@ public class XmlDrawableProperty {
                 }
             }
             case DRAWABLE: {
-            	
+
             }
         }
         return v;
@@ -289,110 +298,118 @@ public class XmlDrawableProperty {
      * @return
      */
     public XD_TYPE getTYPE(Object v){
-		if(v.toString().startsWith("@")){
-			return XD_TYPE.PATH;
-		}
-		switch (field) {
-		case visible:
-		case dither:
-		case useLevel:
-		case useIntrinsicSizeAsMinimum:
-		case variablePadding:
-		case constantSize:
-		case autoMirrored:
-		case oneshot:
-		case state_focused:
-		case state_window_focused:
-		case state_checkable:
-		case state_checked:
-		case state_selected:
-		case state_pressed:
-		case state_activated:
-		case state_active:
-		case state_single:
-		case state_first:
-		case state_middle:
-		case state_last:
-		case state_accelerated:
-		case state_hovered:
-		case state_drag_can_accept:
-		case state_drag_hovered:
-		case state_accessibility_focused:
-			return XD_TYPE.BOOLEAN;
-		case innerRadiusRatio:
-		case thicknessRatio:
-		case angle:
-		case centerX:
-		case centerY:
-		case gradientRadius:
-		case fromDegrees:
-		case toDegrees:
-		case pivotX:
-		case pivotY:
-			return XD_TYPE.FLOAT;
-		case innerRadius:
-		case thickness:
-		case width:
-		case dashWidth:
-		case dashGap:
-		case height:
-		case left:
-		case top:
-		case right:
-		case bottom:
-		case radius:
-		case topLeftRadius:
-		case topRightRadius:
-		case bottomLeftRadius:
-		case bottomRightRadius:
-		case inset:
-		case insetLeft:
-		case insetRight:
-		case insetTop:
-		case insetBottom:
-		case paddingTop:
-		case paddingBottom:
-		case paddingLeft:
-		case paddingRight:
-		case paddingStart:
-		case paddingEnd:
-		case start:
-		case end:
-			return XD_TYPE.DIMEN;
-		case tint:
-		case color:
-		case startColor:
-		case centerColor:
-		case endColor:
-			return XD_TYPE.COLOR;
-		case scaleWidth:
-		case scaleHeight:
-			return XD_TYPE.STRING;
-		case enterFadeDuration:
-		case exitFadeDuration:
-		case duration:
-			return XD_TYPE.INTEGER;
+        if(v.toString().startsWith("@")){
+            return XD_TYPE.PATH;
+        }
+        switch (field) {
+            case visible:
+            case dither:
+            case useLevel:
+            case useIntrinsicSizeAsMinimum:
+            case variablePadding:
+            case constantSize:
+            case autoMirrored:
+            case oneshot:
+            case state_focused:
+            case state_window_focused:
+            case state_checkable:
+            case state_checked:
+            case state_selected:
+            case state_pressed:
+            case state_activated:
+            case state_active:
+            case state_single:
+            case state_first:
+            case state_middle:
+            case state_last:
+            case state_accelerated:
+            case state_hovered:
+            case state_drag_can_accept:
+            case state_drag_hovered:
+            case state_accessibility_focused:
+            case antialias:
+            case filter:
+            case mipMap:
+                return XD_TYPE.BOOLEAN;
+            case innerRadiusRatio:
+            case thicknessRatio:
+            case angle:
+            case centerX:
+            case centerY:
+            case gradientRadius:
+            case fromDegrees:
+            case toDegrees:
+            case pivotX:
+            case pivotY:
+            case alpha:
+                return XD_TYPE.FLOAT;
+            case innerRadius:
+            case thickness:
+            case width:
+            case dashWidth:
+            case dashGap:
+            case height:
+            case left:
+            case top:
+            case right:
+            case bottom:
+            case radius:
+            case topLeftRadius:
+            case topRightRadius:
+            case bottomLeftRadius:
+            case bottomRightRadius:
+            case inset:
+            case insetLeft:
+            case insetRight:
+            case insetTop:
+            case insetBottom:
+            case paddingTop:
+            case paddingBottom:
+            case paddingLeft:
+            case paddingRight:
+            case paddingStart:
+            case paddingEnd:
+            case start:
+            case end:
+                return XD_TYPE.DIMEN;
+            case tint:
+            case color:
+            case startColor:
+            case centerColor:
+            case endColor:
+                return XD_TYPE.COLOR;
+            case scaleWidth:
+            case scaleHeight:
+                return XD_TYPE.STRING;
+            case enterFadeDuration:
+            case exitFadeDuration:
+            case duration:
+                return XD_TYPE.INTEGER;
 
-		case drawable:
-            if(v.toString().startsWith("@"))
-                return XD_TYPE.PATH;
-            else if(v.toString().startsWith("%ref:"))
-                return XD_TYPE.REF;
-            else if(v.toString().startsWith("%BASE64:"))
-                return XD_TYPE.BASE64;
-            return XD_TYPE.COLOR;
-		case id:
-		case gravity:
-		case shape:
-		case tintMode:
-		case type:
-		case clipOrientation:
-		case scaleGravity:
-		case opacity:
-		case paddingMode:
-			break;
-		}
-		return XD_TYPE.NO_VALID;
+            case src:
+            case drawable:
+                if(v.toString().startsWith("@"))
+                    return XD_TYPE.PATH;
+                else if(v.toString().startsWith("%ref:"))
+                    return XD_TYPE.REF;
+                else if(v.toString().startsWith("%BASE64:"))
+                    return XD_TYPE.BASE64;
+                return XD_TYPE.COLOR;
+            case id:
+            case gravity:
+            case shape:
+            case tintMode:
+            case type:
+            case clipOrientation:
+            case scaleGravity:
+            case opacity:
+            case paddingMode:
+            case tileMode:
+            case tileModeX:
+            case tileModeY:
+                break;
+        }
+        return XD_TYPE.NO_VALID;
     }
 
     /** next function just cast value and return the object **/
@@ -431,10 +448,10 @@ public class XmlDrawableProperty {
         return JSONObject.class.cast(value);
     }
     public Object getValueObject() {
-    	return value;
+        return value;
     }
     public List<XmlDrawableProperty> getValuePropertyList() {
-    	return (List<XmlDrawableProperty>) value;
+        return (List<XmlDrawableProperty>) value;
     }
 
     int convertColor(String color) {
