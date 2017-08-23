@@ -1008,7 +1008,26 @@ public class XmlDynamicUtils {
         if (view instanceof ImageView) {
             switch (property.type) {
                 case STRING: {
-                    ((ImageView) view).setScaleType(ImageView.ScaleType.valueOf(property.getValueString().toUpperCase()));
+                    String value = property.getValueString().toUpperCase().trim();
+                    try{
+                        ((ImageView) view).setScaleType(ImageView.ScaleType.valueOf(value));
+                    }catch(IllegalArgumentException e) {
+                        if(value.contains("CENTERCROP")){
+                            ((ImageView) view).setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        } else if(value.contains("CENTERINSIDE")){
+                            ((ImageView) view).setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                        } else if(value.contains("FITCENTER")){
+                            ((ImageView) view).setScaleType(ImageView.ScaleType.FIT_CENTER);
+                        } else if(value.contains("FITEND")){
+                            ((ImageView) view).setScaleType(ImageView.ScaleType.FIT_END);
+                        } else if(value.contains("FITSTART")){
+                            ((ImageView) view).setScaleType(ImageView.ScaleType.FIT_START);
+                        } else if(value.contains("FITXY")){
+                            ((ImageView) view).setScaleType(ImageView.ScaleType.FIT_XY);
+                        }else{
+                            System.err.println(e);
+                        }
+                    }
                 }
                 break;
             }
