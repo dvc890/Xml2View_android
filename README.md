@@ -11,13 +11,16 @@
 
 	public class testActivity extends Activity {
 
-		@XmlDynamicViewId(id = "ok_btn")
-		public RoundButton ok_btn;
+        @XmlDynamicViewId(id = "ok_btn")
+        public RoundButton ok_btn;
+        public RoundButton cancel_btn;
 
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             View sampleView = XmlDynamicView.createView(this, "layout/example2.xml", this);
+            cancel_btn = (RoundButton)sampleView.findViewById(ID.getID("cancel_btn"));
             ok_btn.setOnClickListener(this);
+            cancel_btn.setOnClickListener(this);
         }
 	}
 
