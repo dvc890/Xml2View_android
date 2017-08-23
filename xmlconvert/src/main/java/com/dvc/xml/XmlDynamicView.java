@@ -144,6 +144,7 @@ public class XmlDynamicView {
                 }
             } else {
                 XmlDynamicUtils.parseDynamicView(object, container, ids);
+                parent.setTag(ids);
             }
 
         } else {
@@ -302,9 +303,12 @@ public class XmlDynamicView {
         String id = XmlDynamicUtils.applyStyleProperties(view, properties);
         if (!TextUtils.isEmpty(id)) {
             /* to target older versions we cannot use View.generateViewId();  */
-            ids.put(id, mCurrentId);
-            view.setId( mCurrentId );
-            mCurrentId++;
+            mCurrentId = Math.abs(id.hashCode());
+            ids.put(id, Integer.valueOf(mCurrentId));
+            view.setId(mCurrentId);
+//            ids.put(id, mCurrentId);
+//            view.setId( mCurrentId );
+//            mCurrentId++;
         }
         /* if view is type of ViewGroup check for its children view in xml */
         if (view instanceof ViewGroup) {
