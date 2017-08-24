@@ -2,7 +2,6 @@ package com.dvc.xml.drawable.utils;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 
 import com.dvc.xml.AssetsResUtils;
@@ -67,14 +66,7 @@ public class XmlAnimationDrawableUtils {
 			case ITEM:{
 				switch (dynProp.field) {
 				case drawable:{
-					try {
-						frame = AssetsResUtils.getAssetDrawable(mContext, dynProp.getValueString());
-					} catch (Exception e) {
-						try {
-							frame = new ColorDrawable((int) AssetsResUtils.getAssetValue(mContext, dynProp.getValueString()));
-						} catch (Exception e2) {
-						}
-					}
+					frame = AssetsResUtils.getAssetDrawable(mContext, dynProp.getValueString());
 				}
 				break;
 				case duration:{

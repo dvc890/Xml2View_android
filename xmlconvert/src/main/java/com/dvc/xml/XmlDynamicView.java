@@ -30,7 +30,6 @@ public class XmlDynamicView {
     private static final String TAG_1995 = "blink";
     private static final String TAG_REQUEST_FOCUS = "requestFocus";
     private static final String TAG_TAG = "tag";
-    static int mCurrentId = 13;
     static int INTERNAL_TAG_ID = 0x7f020000;
     static final Class<?>[] mConstructorSignature = new Class[] {
             Context.class, AttributeSet.class};
@@ -303,9 +302,8 @@ public class XmlDynamicView {
         String id = XmlDynamicUtils.applyStyleProperties(view, properties);
         if (!TextUtils.isEmpty(id)) {
             /* to target older versions we cannot use View.generateViewId();  */
-            mCurrentId = Math.abs(id.hashCode());
-            ids.put(id, Integer.valueOf(mCurrentId));
-            view.setId(mCurrentId);
+            ids.put(id, ID.generateViewId(id));
+            view.setId(ID.generateViewId(id));
 //            ids.put(id, mCurrentId);
 //            view.setId( mCurrentId );
 //            mCurrentId++;

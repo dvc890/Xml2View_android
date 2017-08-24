@@ -5,6 +5,7 @@ import android.content.res.XmlResourceParser;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
 import android.util.Xml;
@@ -27,6 +28,8 @@ public class AssetsResUtils {
 	public static final String TYPE_COLORS = "color";
 	public static final String TYPE_DIMENS = "dimen";
 	public static final String TYPE_STRINGS = "string";
+	public static final String TYPE_DRAWABLE = "drawable";
+	public static final String TYPE_MIPMAP = "mipmap";
 	
 
 	/**
@@ -71,8 +74,29 @@ public class AssetsResUtils {
     public static float sp2px(Context context, float spValue) { 
         final float fontScale = context.getResources().getDisplayMetrics().scaledDensity; 
         return (spValue * fontScale + 0.5f); 
-    } 
-    
+    }
+
+    public static int getAndroidResId(String type, String idname) {
+		Class<?> clazz;
+		int resid = -1;
+		try {
+			clazz = Class.forName("com.android.internal.R$"+type);
+			Object object = clazz.newInstance();
+			try {
+				resid = Integer.parseInt(clazz.getField(idname).get(object).toString());
+			} catch (IllegalArgumentException | NoSuchFieldException e) {
+				e.printStackTrace();
+			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return resid;
+	}
+
     public static Object getAssetValue(Context context, String path){
     	Object result = null;
     	String key[] = null;
@@ -85,9 +109,17 @@ public class AssetsResUtils {
     	if(key[0].equalsIgnoreCase(TYPE_STRINGS))
     		result = getString(context, key[1]);
     	else if(key[0].equalsIgnoreCase(TYPE_DIMENS))
-    		result = getDimen(context, key[1]);
-    	else if(key[0].equalsIgnoreCase(TYPE_COLORS))
-    		result = getColor(context, key[1]);
+			if(path.startsWith("@android:"))
+				result = context.getResources().getDimension(getAndroidResId(TYPE_DIMENS, key[1]));
+			else
+				result = getDimen(context, key[1]);
+    	else if(key[0].equalsIgnoreCase(TYPE_COLORS)) {
+			if(path.startsWith("@android:"))
+				result = context.getResources().getColor(getAndroidResId(TYPE_COLORS, key[1]));
+			else
+				result = getColor(context, key[1]);
+		}else if(key[0].equalsIgnoreCase(TYPE_DRAWABLE) || key[0].equalsIgnoreCase(TYPE_MIPMAP))
+			result = getAssetDrawable(context, path);
     	return result;
     }
     
@@ -135,6 +167,8 @@ public class AssetsResUtils {
     	String path = name+".png";
 		if(name.contains("@null"))
 			return new PaintDrawable(Color.TRANSPARENT);
+		if(name.toLowerCase().contains("@color/"))
+			return new ColorDrawable((Integer) getAssetValue(context, name));
     	if(name.startsWith("@"))
     		path = path.substring(1);
     	try {

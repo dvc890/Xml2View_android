@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.InflateException;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -549,7 +550,7 @@ public class XmlDynamicUtils {
                 }
                 break;
                 case PATH: {
-                    if (property.getValueString().contains("color")) {
+                    if (property.getValueString().toLowerCase().contains("@color")) {
                         view.setBackgroundColor((Integer) AssetsResUtils.getAssetValue(view.getContext(),property.getValueString()));
                     } else {
                         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN)
@@ -1025,7 +1026,7 @@ public class XmlDynamicUtils {
                         } else if(value.contains("FITXY")){
                             ((ImageView) view).setScaleType(ImageView.ScaleType.FIT_XY);
                         }else{
-                            System.err.println(e);
+                            throw new InflateException("dvc: \""+e+"\"");
                         }
                     }
                 }

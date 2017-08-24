@@ -151,7 +151,16 @@ public class XmlDrawableUtils {
 			// To be support
 			break;
 		case LAYER_LIST:/*layer-list*/
-			value = XmlLayerDrawableUtils.generateDrawable(mContext, properties);
+			try {
+				Class<?> clazz = mContext.getClassLoader().loadClass("android.graphics.drawable.LayerDrawable");
+				clazz.getMethod("setDrawable",Drawable.class);
+				value = XmlLayerDrawableUtils.generateDrawable(mContext, properties);
+			} catch (NoSuchMethodException e) {
+				value = XmlLayerDrawableUtils.generateDrawable_Simple(mContext, properties);
+				//Some models do not have this Drawable type
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
 			break;
 		case ANIMATION_LIST:/*animation-list*/
 			value = XmlAnimationDrawableUtils.generateDrawable(mContext, properties);
