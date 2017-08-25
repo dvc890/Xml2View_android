@@ -198,13 +198,18 @@ public class AssetsResUtils {
 		try {
 			is = context.getResources().getAssets().open("values/attrs.xml");
 			XmlPullParser xrp = Xml.newPullParser();  
-			xrp.setInput(is, "UTF-8"); 
-	        if (xrp.next() != XmlPullParser.START_TAG) {
+			xrp.setInput(is, "UTF-8");
+			int type;
+			while ((type=xrp.next()) != XmlPullParser.START_TAG &&
+					type != XmlPullParser.END_DOCUMENT) {
+				// Empty loop
+			}
+			if (type != XmlPullParser.START_TAG) {
 	            throw new InflateException(xrp.getPositionDescription()
 	                    + ": No start tag found!");
 	        }
 	        if(xrp.getName().equals("resources")){
-    	        int type = xrp.next();
+    	        type = xrp.next();
     	        boolean isnotthisDepth = false;
     	        while (type != XmlPullParser.END_DOCUMENT) {
     	        	if(xrp.getName() != null && xrp.getName().equals("declare-styleable")){

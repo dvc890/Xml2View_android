@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Created by dvc on 17/7/2017.
- * parse the json as a tree and create View with its dynamicProperties
+ * parse the xml as a tree and create View with its dynamicProperties
  */
 public class XmlDynamicView {
 
@@ -103,7 +103,12 @@ public class XmlDynamicView {
         HashMap<String, Integer> ids = new HashMap<>();
 
         try {
-            if (xmlPullParser.next() != XmlPullParser.START_TAG) {
+            int type;
+            while ((type=xmlPullParser.next()) != XmlPullParser.START_TAG &&
+                    type != XmlPullParser.END_DOCUMENT) {
+                // Empty loop
+            }
+            if (type != XmlPullParser.START_TAG) {
                 throw new InflateException(xmlPullParser.getPositionDescription()
                         + ": No start tag found!");
             }
@@ -171,22 +176,24 @@ public class XmlDynamicView {
             try {
                 xmlPullParser.setInput(is, "utf-8");
             } catch (XmlPullParserException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (XmlPullParserException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
         if(xmlPullParser == null )
             return null;
 
         try {
-            if (xmlPullParser.next() != XmlPullParser.START_TAG) {
+            int type;
+            while ((type=xmlPullParser.next()) != XmlPullParser.START_TAG &&
+                    type != XmlPullParser.END_DOCUMENT) {
+                // Empty loop
+            }
+            if (type != XmlPullParser.START_TAG) {
                 throw new InflateException(xmlPullParser.getPositionDescription()
                         + ": No start tag found!");
             }
