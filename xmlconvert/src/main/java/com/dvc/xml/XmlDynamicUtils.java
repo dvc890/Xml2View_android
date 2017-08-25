@@ -148,7 +148,7 @@ public class XmlDynamicUtils {
                 }
                 break;
                 case INPUTTYPE: {
-                    addlyInputType(view, dynProp);
+                    applyInputType(view, dynProp);
                 }
                 break;
                 case ADJUSTVIEWBOUNDS: {
@@ -965,7 +965,7 @@ public class XmlDynamicUtils {
     /**
      * apply inputType property in textView
      */
-    public static void addlyInputType(View view, XmlDynamicProperty property) {
+    public static void applyInputType(View view, XmlDynamicProperty property) {
         if (view instanceof TextView) {
             int inputtype = InputType.TYPE_NULL;
             switch(property.getValueString()){
