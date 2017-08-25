@@ -77,10 +77,13 @@ public class XmlDynamicProperty {
         TEXT,
         HINT,
         TEXTCOLOR,
+        TEXTCOLORHINT,
         TEXTSIZE,
         TEXTSTYLE,
         ELLIPSIZE,
         MAXLINES,
+        MAXLENGHT,
+        INPUTTYPE,
         GRAVITY,
         DRAWABLETOP,
         DRAWABLEBOTTOM,
@@ -285,11 +288,13 @@ public class XmlDynamicProperty {
             case ELLIPSIZE:
             case SCALETYPE:
                 return TYPE.STRING;
+            case TEXTCOLORHINT:
             case TEXTCOLOR:
                 return TYPE.COLOR;
             case MAXLINES:
             case MAX:
             case PROGRESS:
+            case MAXLENGHT:
                 return TYPE.INTEGER;
             case LAYOUT_WEIGHT:
             case WEIGHTSUM:
@@ -329,6 +334,7 @@ public class XmlDynamicProperty {
             case LAYOUT_TOLEFTOF:
             case LAYOUT_TORIGHTOF:
             case LAYOUT_TOSTARTOF:
+            case INPUTTYPE:
 
             case TAG:
                 return TYPE.NO_VALID;

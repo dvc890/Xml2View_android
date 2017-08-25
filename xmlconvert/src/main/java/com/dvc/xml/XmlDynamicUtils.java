@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -65,6 +67,10 @@ public class XmlDynamicUtils {
                     applyTextColor(view, dynProp);
                 }
                 break;
+                case TEXTCOLORHINT: {
+                    applyTextColorHint(view, dynProp);
+                }
+                break;
                 case TEXTSIZE: {
                     applyTextSize(view, dynProp);
                 }
@@ -117,6 +123,10 @@ public class XmlDynamicUtils {
                     applyMaxLines(view, dynProp);
                 }
                 break;
+                case MAXLENGHT: {
+                    applyMaxLenght(view, dynProp);
+                }
+                break;
                 case ORIENTATION: {
                     applyOrientation(view, dynProp);
                 }
@@ -135,6 +145,10 @@ public class XmlDynamicUtils {
                 break;
                 case SCALETYPE: {
                     applyScaleType(view, dynProp);
+                }
+                break;
+                case INPUTTYPE: {
+                    addlyInputType(view, dynProp);
                 }
                 break;
                 case ADJUSTVIEWBOUNDS: {
@@ -839,15 +853,15 @@ public class XmlDynamicUtils {
         if (view instanceof TextView) {
             switch (property.type) {
                 case STRING: {
-                    ((TextView) view).setText(property.getValueString());
+                    ((TextView) view).setHint(property.getValueString());
                 }
                 break;
                 case REF: {
-                    ((TextView) view).setText(getStringId(view.getContext(), property.getValueString()));
+                    ((TextView) view).setHint(getStringId(view.getContext(), property.getValueString()));
                 }
                 break;
                 case PATH: {
-                	((TextView) view).setText((String) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
+                	((TextView) view).setHint((String) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
                 }
                 break;
             }
@@ -866,6 +880,24 @@ public class XmlDynamicUtils {
                 break;
                 case PATH: {
                 	((TextView) view).setTextColor((int) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
+                }
+                break;
+            }
+        }
+    }
+
+    /**
+     * apply the Hintcolor in TextView
+     */
+    public static void applyTextColorHint(View view, XmlDynamicProperty property) {
+        if (view instanceof TextView) {
+            switch (property.type) {
+                case COLOR: {
+                    ((TextView) view).setHintTextColor(property.getValueColor());
+                }
+                break;
+                case PATH: {
+                    ((TextView) view).setHintTextColor((int) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
                 }
                 break;
             }
@@ -918,6 +950,123 @@ public class XmlDynamicUtils {
     public static void applyMaxLines(View view, XmlDynamicProperty property) {
         if (view instanceof TextView) {
             ((TextView) view).setMaxLines(property.getValueInt());
+        }
+    }
+
+    /**
+     * apply maxLenght property in textView
+     */
+    public static void applyMaxLenght(View view, XmlDynamicProperty property) {
+        if (view instanceof TextView) {
+            ((TextView) view).setFilters(new InputFilter[]{new InputFilter.LengthFilter(property.getValueInt())});
+        }
+    }
+
+    /**
+     * apply inputType property in textView
+     */
+    public static void addlyInputType(View view, XmlDynamicProperty property) {
+        if (view instanceof TextView) {
+            int inputtype = InputType.TYPE_NULL;
+            switch(property.getValueString()){
+                case "none":
+                    inputtype = InputType.TYPE_NULL;
+                    break;
+                case "text":
+                    inputtype = InputType.TYPE_CLASS_TEXT;
+                    break;
+                case "textCapCharacters":
+                    inputtype = InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS;
+                    break;
+                case "textCapWords":
+                    inputtype = InputType.TYPE_TEXT_FLAG_CAP_WORDS;
+                    break;
+                case "textCapSentences":
+                    inputtype = InputType.TYPE_TEXT_FLAG_CAP_SENTENCES;
+                    break;
+                case "textAutoCorrect":
+                    inputtype = InputType.TYPE_TEXT_FLAG_AUTO_CORRECT;
+                    break;
+                case "textAutoComplete":
+                    inputtype = InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE;
+                    break;
+                case "textMultiLine":
+                    inputtype = InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+                    break;
+                case "textImeMultiLine":
+                    inputtype = InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE;
+                    break;
+                case "textNoSuggestions":
+                    inputtype = InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
+                    break;
+                case "textUri":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_URI;
+                    break;
+                case "textEmailAddress":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS;
+                    break;
+                case "textEmailSubject":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_EMAIL_SUBJECT;
+                    break;
+                case "textShortMessage":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE;
+                    break;
+                case "textLongMessage":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE;
+                    break;
+                case "textPersonName":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_PERSON_NAME;
+                    break;
+                case "textPostalAddress":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS;
+                    break;
+                case "textPassword":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_PASSWORD;
+                    break;
+                case "textVisiblePassword":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;
+                    break;
+                case "textWebEditText":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT;
+                    break;
+                case "textFilter":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_FILTER;
+                    break;
+                case "textPhonetic":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_PHONETIC;
+                    break;
+                case "textWebEmailAddress":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS;
+                    break;
+                case "textWebPassword":
+                    inputtype = InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD;
+                    break;
+                case "number":
+                    inputtype = InputType.TYPE_CLASS_NUMBER;
+                    break;
+                case "numberSigned":
+                    inputtype = InputType.TYPE_NUMBER_FLAG_SIGNED;
+                    break;
+                case "numberDecimal":
+                    inputtype = InputType.TYPE_NUMBER_FLAG_DECIMAL;
+                    break;
+                case "numberPassword":
+                    inputtype = InputType.TYPE_NUMBER_VARIATION_PASSWORD;
+                    break;
+                case "phone":
+                    inputtype = InputType.TYPE_CLASS_PHONE;
+                    break;
+                case "datetime":
+                    inputtype = InputType.TYPE_CLASS_DATETIME;
+                    break;
+                case "date":
+                    inputtype = InputType.TYPE_DATETIME_VARIATION_DATE;
+                    break;
+                case "time":
+                    inputtype = InputType.TYPE_DATETIME_VARIATION_TIME;
+                    break;
+            }
+            ((TextView) view).setInputType(inputtype);
         }
     }
 
