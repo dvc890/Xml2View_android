@@ -224,7 +224,7 @@ public class XmlDynamicUtils {
                 }
                 break;
                 case FUNCTION:{
-                	applyFunction(view, dynProp);
+                    applyFunction(view, dynProp);
                 }
                 break;
             }
@@ -480,10 +480,24 @@ public class XmlDynamicUtils {
                             }
                             break;
                             case STRING: {
-                                if (params instanceof LinearLayout.LayoutParams)
-                                    ((LinearLayout.LayoutParams) params).gravity = (Integer) dynProp.getValueInt(Gravity.class, dynProp.getValueString().toUpperCase());
-                                else if (params instanceof FrameLayout.LayoutParams)
-                                    ((FrameLayout.LayoutParams) params).gravity = (Integer) dynProp.getValueInt(Gravity.class, dynProp.getValueString().toUpperCase());
+                                if(dynProp.getValueString().contains("|")){
+                                    String[] values = dynProp.getValueString().split("\\|");
+                                    if (params instanceof LinearLayout.LayoutParams)
+                                        ((LinearLayout.LayoutParams) params).gravity = Gravity.NO_GRAVITY;
+                                    else if (params instanceof FrameLayout.LayoutParams)
+                                        ((FrameLayout.LayoutParams) params).gravity = Gravity.NO_GRAVITY;
+                                    for(String value: values){
+                                        if (params instanceof LinearLayout.LayoutParams)
+                                            ((LinearLayout.LayoutParams) params).gravity |= (Integer) dynProp.getValueInt(Gravity.class, value.toUpperCase());
+                                        else if (params instanceof FrameLayout.LayoutParams)
+                                            ((FrameLayout.LayoutParams) params).gravity |= (Integer) dynProp.getValueInt(Gravity.class, value.toUpperCase());
+                                    }
+                                }else {
+                                    if (params instanceof LinearLayout.LayoutParams)
+                                        ((LinearLayout.LayoutParams) params).gravity = (Integer) dynProp.getValueInt(Gravity.class, dynProp.getValueString().toUpperCase());
+                                    else if (params instanceof FrameLayout.LayoutParams)
+                                        ((FrameLayout.LayoutParams) params).gravity = (Integer) dynProp.getValueInt(Gravity.class, dynProp.getValueString().toUpperCase());
+                                }
                             }
                             break;
                         }
@@ -606,10 +620,10 @@ public class XmlDynamicUtils {
             switch (property.type) {
                 case DIMEN: {
                     int[] padding = new int[] {
-                      view.getPaddingLeft(),
-                      view.getPaddingTop(),
-                      view.getPaddingRight(),
-                      view.getPaddingBottom()
+                            view.getPaddingLeft(),
+                            view.getPaddingTop(),
+                            view.getPaddingRight(),
+                            view.getPaddingBottom()
                     };
                     padding[position] = property.getValueInt();
                     view.setPadding(padding[0], padding[1], padding[2], padding[3]);
@@ -617,10 +631,10 @@ public class XmlDynamicUtils {
                 break;
                 case PATH: {
                     int[] padding = new int[] {
-                      view.getPaddingLeft(),
-                      view.getPaddingTop(),
-                      view.getPaddingRight(),
-                      view.getPaddingBottom()
+                            view.getPaddingLeft(),
+                            view.getPaddingTop(),
+                            view.getPaddingRight(),
+                            view.getPaddingBottom()
                     };
                     padding[position] = (int) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString());
                     view.setPadding(padding[0], padding[1], padding[2], padding[3]);
@@ -837,7 +851,7 @@ public class XmlDynamicUtils {
                 }
                 break;
                 case PATH: {
-                	((TextView) view).setText((String) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
+                    ((TextView) view).setText((String) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
                 }
                 break;
             }
@@ -861,7 +875,7 @@ public class XmlDynamicUtils {
                 }
                 break;
                 case PATH: {
-                	((TextView) view).setHint((String) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
+                    ((TextView) view).setHint((String) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
                 }
                 break;
             }
@@ -879,7 +893,7 @@ public class XmlDynamicUtils {
                 }
                 break;
                 case PATH: {
-                	((TextView) view).setTextColor((int) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
+                    ((TextView) view).setTextColor((int) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
                 }
                 break;
             }
@@ -915,7 +929,7 @@ public class XmlDynamicUtils {
                 }
                 break;
                 case PATH: {
-                	((TextView) view).setTextSize((int) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
+                    ((TextView) view).setTextSize((int) com.dvc.xml.AssetsResUtils.getAssetValue(view.getContext(), property.getValueString()));
                 }
                 break;
             }
@@ -1083,7 +1097,16 @@ public class XmlDynamicUtils {
                 }
                 break;
                 case STRING: {
-                    ((TextView) view).setGravity((Integer) property.getValueInt(Gravity.class, property.getValueString().toUpperCase()));
+                    if(property.getValueString().contains("|")){
+                        String[] values = property.getValueString().split("\\|");
+                        int gravity = Gravity.NO_GRAVITY;
+                        for(String value: values){
+                            gravity |= (Integer) property.getValueInt(Gravity.class, value.toUpperCase());
+                        }
+                        ((TextView) view).setGravity(gravity);
+                    }else {
+                        ((TextView) view).setGravity((Integer) property.getValueInt(Gravity.class, property.getValueString().toUpperCase()));
+                    }
                 }
                 break;
             }
@@ -1116,7 +1139,7 @@ public class XmlDynamicUtils {
                 }
                 break;
                 case PATH: {
-                	 d[position] = com.dvc.xml.AssetsResUtils.getAssetDrawable(view.getContext(), property.getValueString());
+                    d[position] = com.dvc.xml.AssetsResUtils.getAssetDrawable(view.getContext(), property.getValueString());
                 }
                 break;
             }
@@ -1144,7 +1167,7 @@ public class XmlDynamicUtils {
                 }
                 break;
                 case PATH: {
-                	((ImageView) view).setImageDrawable(com.dvc.xml.AssetsResUtils.getAssetDrawable(view.getContext(), property.getValueString()));
+                    ((ImageView) view).setImageDrawable(com.dvc.xml.AssetsResUtils.getAssetDrawable(view.getContext(), property.getValueString()));
                 }
                 break;
             }
@@ -1326,7 +1349,7 @@ public class XmlDynamicUtils {
      */
     private static void applyFunction(View view, XmlDynamicProperty property) {
         try {
-        	Method method = null;
+            Method method = null;
             switch (property.type) {
                 case INTEGER:
                 case COLOR: {
@@ -1371,22 +1394,22 @@ public class XmlDynamicUtils {
                     method.invoke(view);
                 }
                 return;
-                }
+            }
             method.setAccessible(true);
             method.invoke(view, property.getValueObject());
         } catch (SecurityException e) {
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     /*** LinearLayout Properties ***/
 
@@ -1446,7 +1469,7 @@ public class XmlDynamicUtils {
     public static int getLayoutId(Context context, String name) {
         return getR_Id(context, "layout", name);
     }
-    
+
     public static int getR_Id(Context context, String defType, String name) {
         return context.getResources().getIdentifier(name, defType, context.getPackageName());
     }
@@ -1489,7 +1512,7 @@ public class XmlDynamicUtils {
     public static int getDeviceWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
-    
+
     /**
      * get ViewHolder class and make reference for evert @link(DynamicViewId) to the actual view
      * if target contains HashMap<String, Integer> will replaced with the idsMap
@@ -1555,25 +1578,25 @@ public class XmlDynamicUtils {
             return false;
         }
     }
-    
-    public static Method getMethod(Class clazz, String methodName,  
-            final Class... classes) throws Exception {  
-        Method method = null;  
+
+    public static Method getMethod(Class clazz, String methodName,
+                                   final Class... classes) throws Exception {
+        Method method = null;
         try {
-            method = clazz.getDeclaredMethod(methodName, classes);  
-        } catch (NoSuchMethodException e) {  
-            try {  
-                method = clazz.getMethod(methodName, classes);  
-            } catch (NoSuchMethodException ex) {  
-                if (clazz.getSuperclass() == null) {  
-                    return method;  
-                } else {  
-                    method = getMethod(clazz.getSuperclass(), methodName,  
-                            classes);  
-                }  
-            }  
-        }  
-        return method;  
-    }  
+            method = clazz.getDeclaredMethod(methodName, classes);
+        } catch (NoSuchMethodException e) {
+            try {
+                method = clazz.getMethod(methodName, classes);
+            } catch (NoSuchMethodException ex) {
+                if (clazz.getSuperclass() == null) {
+                    return method;
+                } else {
+                    method = getMethod(clazz.getSuperclass(), methodName,
+                            classes);
+                }
+            }
+        }
+        return method;
+    }
 
 }

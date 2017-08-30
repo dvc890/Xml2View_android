@@ -103,6 +103,8 @@ public class AssetsResUtils {
     	
     	if(path.indexOf("@") != -1)
     		key = path.substring(1).split("/");
+		else if(path.startsWith("R."))
+			key = path.substring(2).split(".");
     	else
     		key = path.split("/");
     	key[0] = key[0].toLowerCase().trim();
@@ -124,12 +126,22 @@ public class AssetsResUtils {
     }
     
     public static String getString(Context context, String key) {
-		return getAssetXmlValue(context, TYPE_STRINGS, key);
+		String name = key;
+		if(key.startsWith("R.")){
+			String[] keys = key.split(".");
+			name = keys[keys.length-1];
+		}
+		return getAssetXmlValue(context, TYPE_STRINGS, name);
     }
     
     public static float getDimen(Context context, String key) {
     	float value = 0.0f;
-    	String valuestr = getAssetXmlValue(context, TYPE_DIMENS, key);
+		String name = key;
+		if(key.startsWith("R.")){
+			String[] keys = key.split(".");
+			name = keys[keys.length-1];
+		}
+    	String valuestr = getAssetXmlValue(context, TYPE_DIMENS, name);
     	if(valuestr.length() > 0){
     		if(valuestr.toLowerCase().contains("dip") || valuestr.toLowerCase().contains("dp")){
     			value = Float.valueOf(valuestr.toLowerCase().replace("dip", "").replace("dp", ""));
@@ -144,7 +156,12 @@ public class AssetsResUtils {
     
     public static int getColor(Context context, String key) {
     	int value = -1;
-    	String valuestr = getAssetXmlValue(context, TYPE_COLORS, key);
+		String name = key;
+		if(key.startsWith("R.")){
+			String[] keys = key.split(".");
+			name = keys[keys.length-1];
+		}
+    	String valuestr = getAssetXmlValue(context, TYPE_COLORS, name);
     	if(valuestr.length() > 0){
     		valuestr = valuestr.replace("#", "");
 	    	if (valuestr.length() == 6) {  
@@ -171,18 +188,24 @@ public class AssetsResUtils {
 			return new ColorDrawable((Integer) getAssetValue(context, name));
     	if(name.startsWith("@"))
     		path = path.substring(1);
+		else if(name.startsWith("R."))
+			path = name.substring(2).replace(".","/")+".png";
     	try {
 			value = new BitmapDrawable(BitmapFactory.decodeStream(context.getResources().getAssets().open(path)));
 		} catch (IOException e) {
 			path = name+".jpg";
 	    	if(path.startsWith("@"))
 	    		path = path.substring(1);
+			else if(name.startsWith("R."))
+				path = name.substring(2).replace(".","/")+".jpg";
 			try {
 				value = new BitmapDrawable(BitmapFactory.decodeStream(context.getResources().getAssets().open(path)));
 			} catch (IOException e1) {
 				path = name+".xml";
 				if(path.startsWith("@"))
 					path = path.substring(1);
+				else if(name.startsWith("R."))
+					path = name.substring(2).replace(".","/")+".xml";
 				try {
 					value = XmlDrawableUtils.createXmlDrawable(context, path);
 				} catch (IOException e2) {
