@@ -263,6 +263,7 @@ public class XmlShapeDrawableUtils {
 	public static void applyGradientProperty(Context mContext, GradientDrawable value, List<XmlDrawableProperty> properties){
 		/** GRADIENT field **/
 		int gd_x=0,gd_y=0,sc=0,cc=0,ec=0;
+		value.setGradientType(GradientDrawable.LINEAR_GRADIENT);
 
 		for (XmlDrawableProperty dynProp : properties) {
 			switch (dynProp.field) {
@@ -385,7 +386,10 @@ public class XmlShapeDrawableUtils {
 		if(gd_x != 0 && gd_y != 0)
 			value.setGradientCenter(gd_x, gd_y);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			value.setColors(new int[]{sc,cc,ec});
+			if(cc != 0)
+				value.setColors(new int[]{sc,cc,ec});
+			else
+				value.setColors(new int[]{sc,ec});
 		}
 	}
 

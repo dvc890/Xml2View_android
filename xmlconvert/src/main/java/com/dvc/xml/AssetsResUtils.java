@@ -131,7 +131,7 @@ public class AssetsResUtils {
 			String[] keys = key.split(".");
 			name = keys[keys.length-1];
 		}
-		return getAssetXmlValue(context, TYPE_STRINGS, name);
+		return getAssetXmlValue(context, TYPE_STRINGS, name).replace("\\n","\n");
     }
     
     public static float getDimen(Context context, String key) {

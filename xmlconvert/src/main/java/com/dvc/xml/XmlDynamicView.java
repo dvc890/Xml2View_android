@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.InflateException;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -116,10 +115,10 @@ public class XmlDynamicView {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        if(parent == null){
-            parent = new FrameLayout(context);
-            parent.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        }
+//        if(parent == null){
+//            parent = new FrameLayout(context);
+//            parent.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        }
         View container = createViewInternal(context, xmlPullParser, parent, ids);
 
         if (container==null)
@@ -136,7 +135,7 @@ public class XmlDynamicView {
                 try {
                     Object holder = ((Class<?>)object).getConstructor().newInstance();
                     XmlDynamicUtils.parseDynamicView(holder, container, ids);
-                    parent.setTag(holder);
+                    container.setTag(holder);
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
@@ -148,15 +147,14 @@ public class XmlDynamicView {
                 }
             } else {
                 XmlDynamicUtils.parseDynamicView(object, container, ids);
-                parent.setTag(ids);
+                container.setTag(ids);
             }
 
         } else {
-            parent.setTag(ids);
+            container.setTag(ids);
         }
 
-        parent.addView(container);
-        return parent;
+        return container;
     }
 
     /**
